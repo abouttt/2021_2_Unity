@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Border
+  - ExplosionDrum
+  - NormalDrum
+  - BulletShell
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - UI
   - Player
   - BulletShell
-  - 
+  - BulletMark
   - 
   - 
   - 

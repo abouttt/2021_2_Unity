@@ -25,6 +25,7 @@ public class BulletMark : MonoBehaviour
     private IEnumerator Return()
     {
         yield return new WaitForSeconds(_returnSec);
-        _bulletMarkPool.Return(this.gameObject);
+        gameObject.transform.parent = null;
+        _bulletMarkPool.Return(gameObject);
     }
 }

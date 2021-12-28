@@ -5,22 +5,23 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
-    private float _walkSpeed;
+    private float               _walkSpeed;
     [SerializeField]
-    private float _runSpeed;
+    private float               _runSpeed;
     [SerializeField]
-    private float _jumpForce;
+    private float               _jumpForce;
 
-    private float _moveSpeed;
+    private float               _moveSpeed;
+    private AudioSource         _audioSource;
 
-    private float   _moveX;
-    private float   _moveZ;
-    private Vector3 _moveVector;
-    private Vector3 _rotateDirection;
-    private Vector3 _moveDirection;
+    private float               _moveX;
+    private float               _moveZ;
+    private Vector3             _moveVector;
+    private Vector3             _rotateDirection;
+    private Vector3             _moveDirection;
 
-    private bool           _isRun;
-    private readonly float _gravity = -9.81f;
+    private bool                _isRun;
+    private readonly float      _gravity = -9.81f;
 
     [SerializeField]
     private Transform           _cameraTransform;
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -51,6 +53,23 @@ public class PlayerMovement : MonoBehaviour
         _moveDirection = new Vector3(_rotateDirection.x, _moveDirection.y, _rotateDirection.z);
 
         _characterController.Move(_moveDirection * (_moveSpeed * Time.deltaTime));
+
+        if (_moveX != 0 || _moveZ != 0)
+        {
+            if (!_audioSource.isPlaying && _characterController.isGrounded)
+            {
+                if (!_isRun)
+                {
+                    _audioSource.pitch = 0.7f;
+                    _audioSource.Play();
+                }
+                else
+                {
+                    _audioSource.pitch = 1;
+                    _audioSource.Play();
+                }
+            }
+        }
     }
 
     private void Jump()

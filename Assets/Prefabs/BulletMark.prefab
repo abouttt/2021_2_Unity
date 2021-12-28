@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6379653857547713751}
   - component: {fileID: 2650635669051967887}
   - component: {fileID: 4568374603276800589}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BulletMark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,4 +95,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a0302dddf67fc43b46fb8750e22385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _returnSec: 3
+  _returnSec: 5
