@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
 
     public void SpawnPlayerPrefab()
     {
-        ResetValue();
+        PlayerReset();
         _player = Instantiate(_playerPrefab);
         _player.transform.SetParent(transform);
     }
@@ -136,9 +136,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void ResetValue()
+    public void PlayerReset()
     {
-        _isRight = false;
-        transform.localScale = new Vector3(1, 1, 1);
+        if (_isRight)
+        {
+            _isRight = false;
+            transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 }

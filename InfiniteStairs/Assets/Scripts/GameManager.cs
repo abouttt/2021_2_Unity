@@ -56,12 +56,13 @@ public class GameManager : MonoBehaviour
             IsStart = false;
 
             StopCoroutine(_coroutineGaugeReduction);
-            ResetValue();
+            GameDataReset();
 
             GameUIController.GetInstance.SetActiveUI();
 
             Player.GetInstance.gameObject.transform.position = Vector3.zero;
             Player.GetInstance.IsDie = false;
+            Player.GetInstance.PlayerReset();
 
             StairSpawner.GetInstance.SetStair();
 
@@ -84,7 +85,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ResetValue()
+    private void GameDataReset()
     {
         if (GameScoreMax < GameScore)
         {
