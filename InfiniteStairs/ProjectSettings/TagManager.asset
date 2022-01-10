@@ -4,18 +4,17 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Stair
-  - Border
-  - SpawnBorder
   - ReturnBorder
+  - Stair
+  - SpawnBorder
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Stair
+  - 
   - Water
   - UI
-  - 
+  - CharacterSelect
   - 
   - 
   - 

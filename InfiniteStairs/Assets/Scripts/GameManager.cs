@@ -1,98 +1,92 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager s_instance;
-    public static GameManager  GetInstance => s_instance;
+    public static GameManager  GetInstance { get { Init(); return s_instance; } }
 
-    [SerializeField]
-    private float          _gaugeDecrease;
+    public GameObject          PlayerPrefab;
+    [HideInInspector]
+    public GameObject          Player;
 
-    public bool            IsStart { get; set; } = false;
-    public int             GameScore { get; set; } = 0;
-    public int             GameScoreMax { get; set; } = 0;
-    public float           GameGauge { get; set; } = 100.0f;
+    [HideInInspector]
+    public bool                IsGameStart = false;
 
-    private IEnumerator    _coroutineGaugeReduction;
+    [HideInInspector]
+    public int                 Gauge = 100;
 
-    private readonly float r_gameGaugeDecreaseTime = 0.01f;
+    [HideInInspector]
+    public int                 CurrentScore = 0;
+    [HideInInspector]
+    public int                 BestScore = 0;
 
-    private void Awake()
-    {
-        if (s_instance == null)
-        {
-            DontDestroyOnLoad(this);
-            s_instance = this;
-        }
-    }
+    private IEnumerator        _DecreaseGaugeEnumerator;
+    private readonly float     r_decreaseGaugeValue = 0.03f;
 
     private void Start()
     {
-        _coroutineGaugeReduction = GaugeReduction();
-        StairSpawner.GetInstance.SetStair();
+        Init();
+        _DecreaseGaugeEnumerator = GaugeDecrease();
     }
 
     private void Update()
     {
-        if (IsStart)
+        if (!IsGameStart && SceneManager.GetActiveScene().name == "GamePlayScene")
         {
-            CheckPlayerState();
+            IsGameStart = true;
+            GameStart();
         }
     }
 
-    public void StartGame()
+    private void GameStart()
     {
-        IsStart = true;
-        GameUIController.GetInstance.SetActiveUI();
-        StartCoroutine(_coroutineGaugeReduction);
+        SetPlayer();
+        StartCoroutine(_DecreaseGaugeEnumerator);
     }
 
-    private void CheckPlayerState()
+    private void SetPlayer()
     {
-        if (Player.GetInstance.IsDie)
-        {
-            IsStart = false;
-
-            StopCoroutine(_coroutineGaugeReduction);
-            GameDataReset();
-
-            GameUIController.GetInstance.SetActiveUI();
-
-            Player.GetInstance.gameObject.transform.position = Vector3.zero;
-            Player.GetInstance.IsDie = false;
-            Player.GetInstance.PlayerReset();
-
-            StairSpawner.GetInstance.SetStair();
-
-            Debug.Log("Die");
-        }
+        Player = Instantiate(PlayerPrefab);
+        Player.AddComponent<PlayerController>();
     }
 
-    private IEnumerator GaugeReduction()
+    private IEnumerator GaugeDecrease()
     {
         while (true)
         {
-            yield return new WaitForSeconds(r_gameGaugeDecreaseTime);
-
-            GameGauge -= _gaugeDecrease;
-
-            if (GameGauge <= 0)
+            Gauge--;
+            if (Gauge > 100)
             {
-                Player.GetInstance.IsDie = true;
+                Gauge = 100;
             }
+
+            yield return new WaitForSeconds(r_decreaseGaugeValue);
         }
     }
 
-    private void GameDataReset()
+    public void ResetValue()
     {
-        if (GameScoreMax < GameScore)
-        {
-            GameScoreMax = GameScore;
-        }
+        StopCoroutine(_DecreaseGaugeEnumerator);
+        GameManager.GetInstance.IsGameStart = false;
+        GameManager.GetInstance.Gauge = 100;
+    }
 
-        GameGauge = 100.0f;
-        GameScore = 0;
+    static private void Init()
+    {
+        if (s_instance == null)
+        {
+            GameObject go = GameObject.Find("GameManager");
+            if (go == null)
+            {
+                go = new GameObject { name = "GameManager" };
+                go.AddComponent<GameManager>();
+            }
+
+            DontDestroyOnLoad(go);
+            s_instance = go.GetComponent<GameManager>();
+        }
     }
 }
