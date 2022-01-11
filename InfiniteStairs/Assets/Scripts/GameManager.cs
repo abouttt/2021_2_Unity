@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     private static GameManager s_instance;
     public static GameManager  GetInstance { get { Init(); return s_instance; } }
 
+    [HideInInspector]
     public GameObject          PlayerPrefab;
     [HideInInspector]
     public GameObject          Player;
@@ -23,13 +24,13 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public int                 BestScore = 0;
 
-    private IEnumerator        _DecreaseGaugeEnumerator;
+    private IEnumerator        _decreaseGaugeEnumerator;
     private readonly float     r_decreaseGaugeValue = 0.03f;
 
     private void Start()
     {
         Init();
-        _DecreaseGaugeEnumerator = GaugeDecrease();
+        _decreaseGaugeEnumerator = GaugeDecrease();
     }
 
     private void Update()
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     private void GameStart()
     {
         SetPlayer();
-        StartCoroutine(_DecreaseGaugeEnumerator);
+        StartCoroutine(_decreaseGaugeEnumerator);
     }
 
     private void SetPlayer()
@@ -67,9 +68,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ResetValue()
+    public IEnumerator GameOver()
     {
-        StopCoroutine(_DecreaseGaugeEnumerator);
+        StopCoroutine(_decreaseGaugeEnumerator);
+
+        yield return new WaitForSeconds(0.5f);
+
+        GameObject eft = Instantiate(Resources.Load<GameObject>("Prefabs/PlayerDieEffect"), Player.transform.position, Quaternion.identity);
+        Destroy(Player);
+        Invoke("ReturnMainMenu", 1.5f);
+    }
+
+    public void ReturnMainMenu()
+    {
+        ResetValue();
+        SceneManager.LoadScene("GameMainMenuScene");
+    }
+
+    private void ResetValue()
+    {
         GameManager.GetInstance.IsGameStart = false;
         GameManager.GetInstance.Gauge = 100;
     }

@@ -12,7 +12,7 @@ public class Stair : MonoBehaviour
         {
             if (IsFinal)
             {
-                StairSpawner.GetInstance.SpawnStair(2);
+                StairSpawner.GetInstance.SpawnStair(1, 10, 2);
             }
         }
         else if (collision.tag == "ReturnBorder")

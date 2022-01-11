@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class CharacterSelector : MonoBehaviour
 {
     [SerializeField]
-    private GameObject   _SelectLightPrefab;
+    private GameObject   _YellowLightPrefab;
 
     private Vector2      _mousePosition;
     private LayerMask    _layerMask;
@@ -15,15 +15,15 @@ public class CharacterSelector : MonoBehaviour
     private void Start()
     {
         _layerMask = LayerMask.GetMask("CharacterSelect");
-        _SelectLightPrefab = Instantiate(_SelectLightPrefab);
-        _SelectLightPrefab.SetActive(false);
+        _YellowLightPrefab = Instantiate(_YellowLightPrefab);
+        _YellowLightPrefab.SetActive(false);
     }
 
     private void Update()
     {
         RaycasetHit();
         OnMouseCheck();
-        OnMouseClick();
+        CharacterSelect();
     }
 
     private void RaycasetHit()
@@ -36,17 +36,17 @@ public class CharacterSelector : MonoBehaviour
     {
         if (_hit.collider != null)
         {
-            _SelectLightPrefab.SetActive(true);
+            _YellowLightPrefab.SetActive(true);
             Vector3 pos = _hit.collider.transform.position;
-            _SelectLightPrefab.transform.position = new Vector3(pos.x + 0.1f, pos.y - 0.6f, 0.0f);
+            _YellowLightPrefab.transform.position = new Vector3(pos.x + 0.1f, pos.y - 0.6f, 0.0f);
         }
         else
         {
-            _SelectLightPrefab.SetActive(false);
+            _YellowLightPrefab.SetActive(false);
         }
     }
 
-    private void OnMouseClick()
+    private void CharacterSelect()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -62,7 +62,7 @@ public class CharacterSelector : MonoBehaviour
                 else
                 {
                     GameManager.GetInstance.PlayerPrefab = go;
-                    SceneManager.LoadScene("GameLobbyScene");
+                    SceneManager.LoadScene("GameMainMenuScene");
                 }
             }
         }

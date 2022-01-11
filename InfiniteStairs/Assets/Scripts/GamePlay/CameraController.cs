@@ -17,7 +17,10 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            _targetPosition = GameManager.GetInstance.Player.transform;
+            if (GameManager.GetInstance.Player != null)
+            {
+                _targetPosition = GameManager.GetInstance.Player.transform;
+            }
         }
     }
 

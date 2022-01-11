@@ -25,6 +25,9 @@ public class StairSpawner : MonoBehaviour
     [SerializeField]
     private float        _spawnIncrementY;
 
+    [SerializeField]
+    private GameObject   _itemAutoClimbPrefab;
+
     private ObjectPooler _stairPool;
     public ObjectPooler  StairPool => _stairPool;
 
@@ -40,30 +43,20 @@ public class StairSpawner : MonoBehaviour
     {
         _currentSpawnPosition = _startSpawnPosition;
         _stairType = StairType.Left;
-        SpawnStair(5);
+        SpawnStair(5, 9, 5);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Stair")
-        {
-            if (collision.GetComponent<Stair>().IsFinal)
-            {
-                StairType stairType = (StairType)Random.Range(0, 2);
-                SpawnStair(2);
-            }
-        }
-    }
-
-    public void SpawnStair(int createCycle)
+    public void SpawnStair(int min, int max, int createCycle)
     {
         for (int cycle = 0; cycle < createCycle; cycle++)
         {
-            int length = Random.Range(1, 9);
+            int length = Random.Range(min, max + 1);
 
             for (int spawnCount = 0; spawnCount < length; spawnCount++)
             {
                 GameObject stair = _stairPool.Get(_currentSpawnPosition);
+
+                ItemAutoClimbSpawn();
 
                 switch (_stairType)
                 {
@@ -82,6 +75,16 @@ public class StairSpawner : MonoBehaviour
             }
 
             _stairType = _stairType == StairType.Left ? StairType.Right : StairType.Left;
+        }
+    }
+
+    private void ItemAutoClimbSpawn()
+    {
+        int rand = Random.Range(1, 101);
+        if ((rand >= 40 && rand < 45))
+        {
+            Vector3 pos = _currentSpawnPosition + new Vector3(0.0f, 0.5f, 0.0f);
+            Instantiate(_itemAutoClimbPrefab, pos, Quaternion.identity);
         }
     }
 

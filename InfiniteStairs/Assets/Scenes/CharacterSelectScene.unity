@@ -814,7 +814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3fb2eb67756874b8774e53b63f1042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _SelectLightPrefab: {fileID: 252710190760892360, guid: f9dbe499a008fa34da4879f84f81d172, type: 3}
+  _YellowLightPrefab: {fileID: 252710190760892360, guid: f9dbe499a008fa34da4879f84f81d172, type: 3}
 --- !u!4 &1430297446
 Transform:
   m_ObjectHideFlags: 0

@@ -1089,6 +1089,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 8038518054049265550, guid: b5f7e3aa7412df849a518c0262855f2c, type: 3}
   Player: {fileID: 0}
+  IsGameStart: 0
+  Gauge: 100
   CurrentScore: 0
   BestScore: 0
 --- !u!4 &1405910579
