@@ -21,8 +21,6 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector]
     public int                 CurrentScore = 0;
-    [HideInInspector]
-    public int                 BestScore = 0;
 
     private IEnumerator        _decreaseGaugeEnumerator;
     private readonly float     r_decreaseGaugeValue = 0.03f;
@@ -30,6 +28,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Init();
+        if (PlayerPrefs.HasKey("BestScore") == false)
+            PlayerPrefs.SetInt("BestScore", 0);
         _decreaseGaugeEnumerator = GaugeDecrease();
     }
 

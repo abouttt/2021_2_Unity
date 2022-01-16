@@ -24,12 +24,12 @@ public class GameLobbyController : MonoBehaviour
 
     private void SetBestScore()
     {
-        if (GameManager.GetInstance.BestScore < GameManager.GetInstance.CurrentScore)
+        if (PlayerPrefs.GetInt("BestScore") < GameManager.GetInstance.CurrentScore)
         {
-            GameManager.GetInstance.BestScore = GameManager.GetInstance.CurrentScore;
+            PlayerPrefs.SetInt("BestScore", GameManager.GetInstance.CurrentScore);
             GameManager.GetInstance.CurrentScore = 0;
         }
-        _textBestScore.text = $"BEST\n{GameManager.GetInstance.BestScore.ToString()}";
+        _textBestScore.text = $"BEST\n{PlayerPrefs.GetInt("BestScore").ToString()}";
     }
 
     public void OnClickButtonStart()
