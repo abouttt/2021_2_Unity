@@ -35,7 +35,7 @@ public class Util
 
     public static void DrawCircle(GameObject go, float radius, float lineWidth)
     {
-        radius -= 0.6f;
+        //radius -= 0.6f;
         int segments = 360;
         LineRenderer line = GetOrAddComponent<LineRenderer>(go);
         line.useWorldSpace = false;

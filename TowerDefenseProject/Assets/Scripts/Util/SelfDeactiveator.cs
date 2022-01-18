@@ -19,6 +19,6 @@ public class SelfDeactiveator : MonoBehaviour
     {
         yield return new WaitForSeconds(_returnTimeSec);
 
-        ObjectPoolManager.Instance.HitSparkEftPool.Return(gameObject);
+        EffectManager.Instance.HitSparkEftPool.Return(gameObject);
     }
 }

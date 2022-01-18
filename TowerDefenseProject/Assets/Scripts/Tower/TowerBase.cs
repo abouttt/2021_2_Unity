@@ -9,6 +9,7 @@ public class TowerBase : MonoBehaviour
 
     public bool IsBuilded { get; set; } = false;
 
+    [SerializeField]
     protected GameObject _target = null;
     protected GameObject _targets = null;
 
@@ -40,5 +41,18 @@ public class TowerBase : MonoBehaviour
         }
 
         return gameObjects;
+    }
+
+    protected Transform FindShootPoint()
+    {
+        Transform[] allChildren = GetComponentsInChildren<Transform>();
+        foreach (Transform t in allChildren)
+        {
+            if (t.name == "ShootPoint")
+                return t;
+        }
+
+        Debug.Log("Failed find the ShootPoint");
+        return null;
     }
 }
