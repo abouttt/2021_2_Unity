@@ -19,14 +19,14 @@ public class ObjectPoolManager : MonoBehaviour
 
     private void InitEffect()
     {
-        Transform parent = GameObject.Find("Effects").transform;
+        GameObject parent = GameObject.Find("Effects");
         if (parent == null)
         {
-            parent = new GameObject { name = "Effects" }.transform;
+            parent = new GameObject { name = "Effects" };
         }
 
         _hitSparkEftPrefab = Resources.Load<GameObject>("Prefabs/Effects/HitSpark");
-        HitSparkEftPool = new ObjectPooler(_hitSparkEftPrefab, 50, parent);
+        HitSparkEftPool = new ObjectPooler(_hitSparkEftPrefab, 50, parent.transform);
     }
 
     private static void Init()
