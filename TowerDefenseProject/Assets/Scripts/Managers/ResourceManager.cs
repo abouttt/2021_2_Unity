@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ResourceManager
 {
-    public T Load<T>(string path) where T : Object
+    public static T Load<T>(string path) where T : Object
     {
         if (typeof(T) == typeof(GameObject))
         {
@@ -13,7 +13,7 @@ public class ResourceManager
             if (index >= 0)
                 name = name.Substring(index + 1);
 
-            GameObject go = Managers.Pool.GetOriginal(name);
+            GameObject go = PoolManager.Instance.GetOriginal(name);
             if (go != null)
                 return go as T;
         }
@@ -21,7 +21,7 @@ public class ResourceManager
         return Resources.Load<T>(path);
     }
 
-    public GameObject Instantiate(string path, Transform parent = null)
+    public static GameObject Instantiate(string path, Transform parent = null)
     {
         GameObject original = Load<GameObject>($"Prefabs/{path}");
         if (original == null)
@@ -31,7 +31,7 @@ public class ResourceManager
         }
 
         if (original.GetComponent<Poolable>() != null)
-            return Managers.Pool.Pop(original, parent).gameObject;
+            return PoolManager.Instance.Pop(original, parent).gameObject;
 
         GameObject go = Object.Instantiate(original, parent);
         go.name = original.name;
@@ -39,7 +39,7 @@ public class ResourceManager
         return go;
     }
 
-    public void Destroy(GameObject go)
+    public static void Destroy(GameObject go)
     {
         if (go == null)
             return;
@@ -47,7 +47,7 @@ public class ResourceManager
         Poolable poolable = go.GetComponent<Poolable>();
         if (poolable != null)
         {
-            Managers.Pool.Push(poolable);
+            PoolManager.Instance.Push(poolable);
             return;
         }
 

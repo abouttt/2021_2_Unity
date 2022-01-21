@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class TowerCanon : TowerBase
 {
-    private GameObject _shootEffect = null;
     private Transform _shootPoint = null;
     private bool _isAttacking = false;
-    private readonly float _attackDelaySec = 0.1f;
+    private readonly float _attackDelaySec = 1.0f;
 
     private void Start()
     {
-        Init(5.0f, 3.5f);
+        Init(5, 3.5f);
     }
 
     private void Update()
@@ -36,13 +35,11 @@ public class TowerCanon : TowerBase
         }
     }
 
-    protected override void Init(float attackDamage, float fucntionRange)
+    protected override void Init(int attackDamage, float fucntionRange)
     {
         base.Init(attackDamage, fucntionRange);
 
         _shootPoint = FindShootPoint();
-        //_shootEffect = Instantiate(Resources.Load<GameObject>("Prefabs/Effects/ShootEffect"), _shootPoint);
-        //_shootEffect.SetActive(false);
     }
 
     private IEnumerator OnAttack()
@@ -52,21 +49,11 @@ public class TowerCanon : TowerBase
             if (!IsOnTarget())
                 yield break;
 
-            AttackToTarget();
+            GameObject projectile = ResourceManager.Instantiate("ShootObjects/Projectile_Bolt");
+            projectile.transform.position = _shootPoint.position;
+            projectile.GetComponent<Projectile>().Target = _target.transform;
 
             yield return new WaitForSeconds(_attackDelaySec);
-        }
-    }
-
-    private void AttackToTarget()
-    {
-        _shootEffect.SetActive(true);
-        Vector3 dir = _target.transform.position - transform.position;
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, dir, out hit, dir.magnitude, LayerMask.GetMask("Enemy")))
-        {
-            //EffectManager.Instance.HitSparkEftPool.Get(hit.point);
-            //_target.GetComponent<Enemy>().TakeDamage(AttackDamage);
         }
     }
 
@@ -77,7 +64,6 @@ public class TowerCanon : TowerBase
         {
             _target = null;
             _isAttacking = false;
-            _shootEffect.SetActive(false);
             return false;
         }
 

@@ -5,14 +5,14 @@ using UnityEngine;
 public class TowerBase : MonoBehaviour
 {
     public float AttackRange { get; protected set; }
-    public float AttackDamage { get; protected set; }
+    public int AttackDamage { get; protected set; }
 
     public bool IsBuilded { get; set; } = false;
 
     protected GameObject _target = null;
-    protected GameObject _targets = null;
+    protected GameObject[] _targets = null;
 
-    protected virtual void Init(float attackDamage, float fucntionRange)
+    protected virtual void Init(int attackDamage, float fucntionRange)
     {
         AttackDamage = attackDamage;
         AttackRange = fucntionRange;
@@ -45,10 +45,10 @@ public class TowerBase : MonoBehaviour
     protected Transform FindShootPoint()
     {
         Transform[] allChildren = GetComponentsInChildren<Transform>();
-        foreach (Transform t in allChildren)
+        foreach (Transform child in allChildren)
         {
-            if (t.name == "ShootPoint")
-                return t;
+            if (child.name == "ShootPoint")
+                return child;
         }
 
         Debug.Log("Failed find the ShootPoint");

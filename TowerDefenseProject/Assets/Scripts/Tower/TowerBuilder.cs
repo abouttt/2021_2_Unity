@@ -17,12 +17,16 @@ public class TowerBuilder : MonoBehaviour
     private void Start()
     {
         Init();
-        Managers.Input.MouseAction += BuildTower;
     }
 
     private void Update()
     {
         CheckBuildable();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            BuildTower();
+        }
     }
 
     private void CheckBuildable()
@@ -39,25 +43,27 @@ public class TowerBuilder : MonoBehaviour
             Util.DrawCircle(_towerSelect, _towerSelect.GetComponent<TowerBase>().AttackRange, 0.1f);
 
             Collider[] colliders = Physics.OverlapSphere(_towerSelect.transform.position, _towerBuildOverlapRadius, LayerMask.GetMask("Tower"));
-
             if ((colliders.Length > 0) || (_hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")))
             {
-                _isBuildable = false;
-                Util.SetColorInChildren(_towerSelect, Color.red);
+                if (_isBuildable)
+                {
+                    _isBuildable = false;
+                    Util.SetColorInChildren(_towerSelect, Color.red);
+                }
             }
             else
             {
-                _isBuildable = true;
-                Util.SetColorInChildren(_towerSelect, Color.green);
+                if (!_isBuildable)
+                {
+                    _isBuildable = true;
+                    Util.SetColorInChildren(_towerSelect, Color.green);
+                }
             }
         }
     }
 
-    private void BuildTower(Define.MouseEvent evt)
+    private void BuildTower()
     {
-        if (evt != Define.MouseEvent.Press)
-            return;
-
         if (_towerSelect == null || _towerPrefab == null)
             return;
 
@@ -81,7 +87,7 @@ public class TowerBuilder : MonoBehaviour
     private void SetupTower(string towerName)
     {
         string path = $"Prefabs/Towers/{towerName}";
-        GameObject tower = Managers.Resource.Load<GameObject>(path);
+        GameObject tower = ResourceManager.Load<GameObject>(path);
         _towerPrefab = tower;
         _towerSelect = Instantiate(tower, Input.mousePosition, Quaternion.identity);
     }
