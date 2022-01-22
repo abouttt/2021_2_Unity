@@ -8,19 +8,23 @@ public class Projectile : MonoBehaviour
     private float _speed = 0.0f;
 
     private Transform _target = null;
+
     public Transform Target { set { _target = value; } }
 
     private void Start()
     {
-
+        
     }
 
     private void Update()
     {
         if (_target == null)
+        {
+            ResourceManager.Destroy(gameObject);
             return;
-        Vector3.MoveTowards(transform.position, _target.position, Time.deltaTime * _speed);
-        // transform.position = Vector3.Lerp(transform.position, _target.position, Time.deltaTime * _speed);
+        }
+
+        transform.position = Vector3.Lerp(transform.position, _target.position, _speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,6 +32,8 @@ public class Projectile : MonoBehaviour
         if (other.gameObject == _target.gameObject)
         {
             _target = null;
+            GameObject eft = ResourceManager.Instantiate("Effects/HitExplosion");
+            eft.transform.position = transform.position;
             ResourceManager.Destroy(gameObject);
         }
     }

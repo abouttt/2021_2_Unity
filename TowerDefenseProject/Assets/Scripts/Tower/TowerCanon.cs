@@ -21,11 +21,10 @@ public class TowerCanon : TowerBase
         if (_target == null)
         {
             _target = FindTarget("Enemy");
-            return;
         }
         else
         {
-            transform.LookAt(_target.transform.position);
+            LookAtTarget();
 
             if (!_isAttacking)
             {
@@ -40,6 +39,13 @@ public class TowerCanon : TowerBase
         base.Init(attackDamage, fucntionRange);
 
         _shootPoint = FindShootPoint();
+    }
+
+    private void LookAtTarget()
+    {
+        Vector3 dir = _target.transform.position - transform.position;
+        dir.y = 0.0f;
+        transform.rotation = Quaternion.LookRotation(dir);
     }
 
     private IEnumerator OnAttack()
@@ -60,7 +66,7 @@ public class TowerCanon : TowerBase
     private bool IsOnTarget()
     {
         float dist = Vector3.Distance(transform.position, _target.transform.position);
-        if (dist > AttackRange + 0.7f)
+        if (dist > Range + 0.7f)
         {
             _target = null;
             _isAttacking = false;

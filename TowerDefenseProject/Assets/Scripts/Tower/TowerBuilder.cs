@@ -40,7 +40,7 @@ public class TowerBuilder : MonoBehaviour
         {
             _towerSelect.transform.position = _hit.point;
 
-            Util.DrawCircle(_towerSelect, _towerSelect.GetComponent<TowerBase>().AttackRange, 0.1f);
+            Util.DrawCircle(_towerSelect, _towerSelect.GetComponent<TowerBase>().Range, 0.1f);
 
             Collider[] colliders = Physics.OverlapSphere(_towerSelect.transform.position, _towerBuildOverlapRadius, LayerMask.GetMask("Tower"));
             if ((colliders.Length > 0) || (_hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground")))

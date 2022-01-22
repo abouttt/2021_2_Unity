@@ -4,23 +4,37 @@ using UnityEngine;
 
 public class TowerBase : MonoBehaviour
 {
-    public float AttackRange { get; protected set; }
-    public int AttackDamage { get; protected set; }
+    [SerializeField]
+    private float _range = 0.0f;
+    [SerializeField]
+    private int _damage = 0;
 
     public bool IsBuilded { get; set; } = false;
 
     protected GameObject _target = null;
     protected GameObject[] _targets = null;
 
+    public float Range
+    {
+        get { return _range; }
+        protected set { _range = value; }
+    }
+
+    public int Damage
+    {
+        get { return _damage; }
+        protected set { _damage = value; }
+    }
+
     protected virtual void Init(int attackDamage, float fucntionRange)
     {
-        AttackDamage = attackDamage;
-        AttackRange = fucntionRange;
+        Damage = attackDamage;
+        Range = fucntionRange;
     }
 
     protected GameObject FindTarget(string layerName)
     {
-        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, AttackRange, LayerMask.GetMask(layerName));
+        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, Range, LayerMask.GetMask(layerName));
         foreach (Collider collider in colliders)
         {
             return collider.gameObject;
@@ -31,15 +45,14 @@ public class TowerBase : MonoBehaviour
 
     protected GameObject[] FindTargets(params string[] layerNames)
     {
-        LayerMask layerMask = LayerMask.GetMask(layerNames);
-        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, AttackRange, layerMask);
-        GameObject[] gameObjects = new GameObject[colliders.Length];
+        Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, Range, LayerMask.GetMask(layerNames));
+        GameObject[] targets = new GameObject[colliders.Length];
         for (int i = 0; i < colliders.Length; i++)
         {
-            gameObjects[i] = colliders[i].gameObject;
+            targets[i] = colliders[i].gameObject;
         }
 
-        return gameObjects;
+        return targets;
     }
 
     protected Transform FindShootPoint()

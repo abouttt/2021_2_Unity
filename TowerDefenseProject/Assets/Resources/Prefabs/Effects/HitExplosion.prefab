@@ -4852,7 +4852,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2727931867415142487}
   - component: {fileID: 2727931867429299479}
+  - component: {fileID: -1540919666243931169}
   - component: {fileID: 2727931867429264567}
+  - component: {fileID: 2655526443303366296}
   m_Layer: 0
   m_Name: HitExplosion
   m_TagString: Untagged
@@ -9610,6 +9612,19 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &-1540919666243931169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2727931867414723703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c06f6c88c5e1a5b4db526594614b41e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deactiveTime: 1
 --- !u!199 &2727931867429264567
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -9676,3 +9691,16 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &2655526443303366296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2727931867414723703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bccd2a3a7c58eae4ab268dc1893746fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsing: 0

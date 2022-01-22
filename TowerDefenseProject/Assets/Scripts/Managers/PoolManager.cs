@@ -100,11 +100,6 @@ public class PoolManager : MonoBehaviour
 
         if (parent == null)
             parent = _pool[original.name].Root;
-        else
-        {
-            //_pool[original.name].Root.parent = original.transform;
-           // parent = _pool[original.name].Root;
-        }
 
         return _pool[original.name].Pop(parent);
     }
@@ -139,9 +134,7 @@ public class PoolManager : MonoBehaviour
             s_instance = go.GetComponent<PoolManager>();
 
             if (_root == null)
-            {
                 _root = new GameObject { name = "@Pool_Root" }.transform;
-            }
         }
     }
 }
