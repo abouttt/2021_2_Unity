@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
     {
         if (_target == null)
         {
-            ResourceManager.Destroy(gameObject);
+            ResourceManager.Instance.Destroy(gameObject);
             return;
         }
 
@@ -32,9 +32,10 @@ public class Projectile : MonoBehaviour
         if (other.gameObject == _target.gameObject)
         {
             _target = null;
-            GameObject eft = ResourceManager.Instantiate("Effects/HitExplosion");
+            GameObject eft = ResourceManager.Instance.Instantiate("Effects/HitExplosion");
             eft.transform.position = transform.position;
-            ResourceManager.Destroy(gameObject);
+            eft.transform.parent = other.transform;
+            ResourceManager.Instance.Destroy(gameObject);
         }
     }
 }

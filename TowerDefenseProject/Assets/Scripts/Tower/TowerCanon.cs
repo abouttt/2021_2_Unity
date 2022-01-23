@@ -34,18 +34,11 @@ public class TowerCanon : TowerBase
         }
     }
 
-    protected override void Init(int attackDamage, float fucntionRange)
+    protected override void Init(int damage, float range)
     {
-        base.Init(attackDamage, fucntionRange);
+        base.Init(damage, range);
 
         _shootPoint = FindShootPoint();
-    }
-
-    private void LookAtTarget()
-    {
-        Vector3 dir = _target.transform.position - transform.position;
-        dir.y = 0.0f;
-        transform.rotation = Quaternion.LookRotation(dir);
     }
 
     private IEnumerator OnAttack()
@@ -55,9 +48,10 @@ public class TowerCanon : TowerBase
             if (!IsOnTarget())
                 yield break;
 
-            GameObject projectile = ResourceManager.Instantiate("ShootObjects/Projectile_Bolt");
+            GameObject projectile = ResourceManager.Instance.Instantiate("ShootObjects/Projectile_Bolt");
             projectile.transform.position = _shootPoint.position;
             projectile.GetComponent<Projectile>().Target = _target.transform;
+            SoundManager.Instance.Play("CanonTowerShoot");
 
             yield return new WaitForSeconds(_attackDelaySec);
         }
@@ -66,7 +60,7 @@ public class TowerCanon : TowerBase
     private bool IsOnTarget()
     {
         float dist = Vector3.Distance(transform.position, _target.transform.position);
-        if (dist > Range + 0.7f)
+        if (dist > Range + 0.8f)
         {
             _target = null;
             _isAttacking = false;

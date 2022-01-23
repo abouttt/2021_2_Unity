@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceManager
+public class ResourceManager : MonoBehaviour
 {
-    public static T Load<T>(string path) where T : Object
+    private static ResourceManager s_instance = null;
+    public static ResourceManager Instance { get { Init(); return s_instance; } }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    public T Load<T>(string path) where T : Object
     {
         if (typeof(T) == typeof(GameObject))
         {
@@ -21,7 +29,7 @@ public class ResourceManager
         return Resources.Load<T>(path);
     }
 
-    public static GameObject Instantiate(string path, Transform parent = null)
+    public GameObject Instantiate(string path, Transform parent = null)
     {
         GameObject original = Load<GameObject>($"Prefabs/{path}");
         if (original == null)
@@ -39,7 +47,7 @@ public class ResourceManager
         return go;
     }
 
-    public static void Destroy(GameObject go)
+    public void Destroy(GameObject go)
     {
         if (go == null)
             return;
@@ -52,5 +60,21 @@ public class ResourceManager
         }
 
         Object.Destroy(go);
+    }
+
+    private static void Init()
+    {
+        if (s_instance == null)
+        {
+            GameObject go = GameObject.Find("ResourceManager");
+            if (go == null)
+            {
+                go = new GameObject { name = "ResourceManager" };
+                go.AddComponent<ResourceManager>();
+            }
+
+            s_instance = go.GetComponent<ResourceManager>();
+            Util.SetManagersChild(s_instance.transform);
+        }
     }
 }

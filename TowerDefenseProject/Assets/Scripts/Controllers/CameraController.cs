@@ -10,6 +10,21 @@ public class CameraController : MonoBehaviour
     private float _zoomSpeed = 400.0f;
 
     [SerializeField]
+    private float _minX = -10.0f;
+    [SerializeField]
+    private float _maxX = 10.0f;
+
+    [SerializeField]
+    private float _minY = 4.0f;
+    [SerializeField]
+    private float _maxY = 25.0f;
+
+    [SerializeField]
+    private float _minZ = 4.0f;
+    [SerializeField]
+    private float _maxZ = 25.0f;
+
+    [SerializeField]
     private Vector3 _originalViewPos;
 
     private void Update()
@@ -24,10 +39,23 @@ public class CameraController : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        h *= _moveSpeed * Time.deltaTime;
-        v *= _moveSpeed * Time.deltaTime;
+        if (h != 0 || v != 0)
+        {
+            h *= _moveSpeed * Time.deltaTime;
+            v *= _moveSpeed * Time.deltaTime;
 
-        transform.position += new Vector3(h, 0, v);
+            Vector3 nextPos = transform.position + new Vector3(h, 0, v);
+            if (nextPos.x < _minX)
+                nextPos.x = _minX;
+            if (nextPos.x > _maxX)
+                nextPos.x = _maxX;
+            if (nextPos.z < _minZ)
+                nextPos.z = _minZ;
+            if (nextPos.z > _maxZ)
+                nextPos.z = _maxZ;
+
+            transform.position = nextPos;
+        }
     }
 
     private void Zoom()
@@ -36,17 +64,19 @@ public class CameraController : MonoBehaviour
 
         if (mouseWheel.y > 0)
         {
+            float z = transform.localPosition.z;
             transform.Translate(Vector3.forward * _zoomSpeed * Time.deltaTime);
 
-            if (transform.localPosition.y < 2.0f)
-                transform.localPosition = new Vector3(transform.localPosition.x, 2.0f, transform.localPosition.z);
+            if (transform.localPosition.y < _minY)
+                transform.localPosition = new Vector3(transform.localPosition.x, _minY, z);
         }
         else if (mouseWheel.y < 0)
         {
+            float z = transform.localPosition.z;
             transform.Translate(Vector3.back * _zoomSpeed * Time.deltaTime);
 
-            if (transform.localPosition.y > 30.0f)
-                transform.localPosition = new Vector3(transform.localPosition.x, 30.0f, transform.localPosition.z);
+            if (transform.localPosition.y > _maxY)
+                transform.localPosition = new Vector3(transform.localPosition.x, _maxY, z);
         }
     }
 

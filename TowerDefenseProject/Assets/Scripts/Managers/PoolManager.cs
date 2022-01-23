@@ -120,21 +120,25 @@ public class PoolManager : MonoBehaviour
         _pool.Clear();
     }
 
-    static void Init()
+    private static void Init()
     {
         if (s_instance == null)
         {
-            GameObject go = GameObject.Find("@PoolManager");
+            GameObject go = GameObject.Find("PoolManager");
             if (go == null)
             {
-                go = new GameObject { name = "@PoolManager" };
+                go = new GameObject { name = "PoolManager" };
                 go.AddComponent<PoolManager>();
             }
 
             s_instance = go.GetComponent<PoolManager>();
+            Util.SetManagersChild(s_instance.transform);
 
             if (_root == null)
-                _root = new GameObject { name = "@Pool_Root" }.transform;
+            {
+                _root = new GameObject { name = "Pool_Root" }.transform;
+                _root.transform.parent = s_instance.transform;
+            }
         }
     }
 }

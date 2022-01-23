@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerBuilder : MonoBehaviour
+public class BuildManager : MonoBehaviour
 {
-    private static TowerBuilder s_instance;
-    public static TowerBuilder Instance { get { Init(); return s_instance; } }
+    private static BuildManager s_instance;
+    public static BuildManager Instance { get { Init(); return s_instance; } }
 
     private GameObject _towerPrefab = null;
     private GameObject _towerSelect = null;
@@ -87,7 +87,7 @@ public class TowerBuilder : MonoBehaviour
     private void SetupTower(string towerName)
     {
         string path = $"Prefabs/Towers/{towerName}";
-        GameObject tower = ResourceManager.Load<GameObject>(path);
+        GameObject tower = ResourceManager.Instance.Load<GameObject>(path);
         _towerPrefab = tower;
         _towerSelect = Instantiate(tower, Input.mousePosition, Quaternion.identity);
     }
@@ -96,14 +96,15 @@ public class TowerBuilder : MonoBehaviour
     {
         if (s_instance == null)
         {
-            GameObject go = GameObject.Find("@TowerBuilder");
+            GameObject go = GameObject.Find("BuildManager");
             if (go == null)
             {
-                go = new GameObject { name = "@TowerBuilder" };
-                go.AddComponent<TowerBuilder>();
+                go = new GameObject { name = "BuildManager" };
+                go.AddComponent<BuildManager>();
             }
 
-            s_instance = go.GetComponent<TowerBuilder>();
+            s_instance = go.GetComponent<BuildManager>();
+            Util.SetManagersChild(s_instance.transform);
         }
     }
 

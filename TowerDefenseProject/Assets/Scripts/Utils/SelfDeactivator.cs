@@ -9,13 +9,13 @@ public class SelfDeactivator : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(PushPool());
+        StartCoroutine(Deactivator());
     }
 
-    private IEnumerator PushPool()
+    private IEnumerator Deactivator()
     {
         yield return new WaitForSeconds(_deactiveTime);
 
-        ResourceManager.Destroy(gameObject);
+        ResourceManager.Instance.Destroy(gameObject);
     }
 }

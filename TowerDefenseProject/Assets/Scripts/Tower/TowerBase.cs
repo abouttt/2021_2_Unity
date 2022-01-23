@@ -26,10 +26,10 @@ public class TowerBase : MonoBehaviour
         protected set { _damage = value; }
     }
 
-    protected virtual void Init(int attackDamage, float fucntionRange)
+    protected virtual void Init(int damage, float range)
     {
-        Damage = attackDamage;
-        Range = fucntionRange;
+        Damage = damage;
+        Range = range;
     }
 
     protected GameObject FindTarget(string layerName)
@@ -66,5 +66,12 @@ public class TowerBase : MonoBehaviour
 
         Debug.Log("Failed find the ShootPoint");
         return null;
+    }
+
+    protected void LookAtTarget()
+    {
+        Vector3 dir = _target.transform.position - transform.position;
+        dir.y = 0.0f;
+        transform.rotation = Quaternion.LookRotation(dir);
     }
 }

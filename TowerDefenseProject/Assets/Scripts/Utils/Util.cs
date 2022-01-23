@@ -92,4 +92,15 @@ public class Util
 
         line.SetPositions(points);
     }
+
+    public static void SetManagersChild(Transform child)
+    {
+        GameObject managers = GameObject.Find("Managers");
+        if (managers == null)
+        {
+            managers = new GameObject { name = "Managers" };
+        }
+
+        child.parent = managers.transform;
+    }
 }
