@@ -6,8 +6,6 @@ public class TowerBase : MonoBehaviour
 {
     [SerializeField]
     private float _range = 0.0f;
-    [SerializeField]
-    private int _damage = 0;
 
     public bool IsBuilded { get; set; } = false;
 
@@ -18,18 +16,6 @@ public class TowerBase : MonoBehaviour
     {
         get { return _range; }
         protected set { _range = value; }
-    }
-
-    public int Damage
-    {
-        get { return _damage; }
-        protected set { _damage = value; }
-    }
-
-    protected virtual void Init(int damage, float range)
-    {
-        Damage = damage;
-        Range = range;
     }
 
     protected GameObject FindTarget(string layerName)

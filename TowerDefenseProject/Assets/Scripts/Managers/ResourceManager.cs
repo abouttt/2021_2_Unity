@@ -47,6 +47,13 @@ public class ResourceManager : MonoBehaviour
         return go;
     }
 
+    public GameObject Instantiate(string path, Vector3 position, Transform parent = null)
+    {
+        GameObject go = Instantiate(path, parent);
+        go.transform.position = position;
+        return go;
+    }
+
     public void Destroy(GameObject go)
     {
         if (go == null)
