@@ -5,18 +5,11 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 0.0f;
+    private float _speed = 10.0f;
     [SerializeField]
     private int _damage = 10;
 
     private Transform _target = null;
-
-    public Transform Target { set { _target = value; } }
-
-    private void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -27,6 +20,12 @@ public class Projectile : MonoBehaviour
         }
 
         transform.position = Vector3.Lerp(transform.position, _target.position, _speed * Time.deltaTime);
+    }
+
+    public void Setup(Vector3 pos, GameObject target)
+    {
+        transform.position = pos;
+        _target = target.transform;
     }
 
     private void OnTriggerEnter(Collider other)

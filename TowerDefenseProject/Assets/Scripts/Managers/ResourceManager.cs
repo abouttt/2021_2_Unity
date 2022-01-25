@@ -81,7 +81,7 @@ public class ResourceManager : MonoBehaviour
             }
 
             s_instance = go.GetComponent<ResourceManager>();
-            Util.SetManagersChild(s_instance.transform);
+            Util.SetChildAsParent("Managers", s_instance.transform);
         }
     }
 }

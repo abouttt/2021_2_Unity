@@ -12,6 +12,17 @@ public class Util
         return component;
     }
 
+    public static void SetChildAsParent(string parentName, Transform child)
+    {
+        GameObject parent = GameObject.Find(parentName);
+        if (parent == null)
+        {
+            parent = new GameObject { name = parentName };
+        }
+
+        child.parent = parent.transform;
+    }
+
     public static GameObject FindChild(GameObject go, string name = null, bool recursive = false)
     {
         Transform transform = FindChild<Transform>(go, name, recursive);
@@ -91,16 +102,5 @@ public class Util
         }
 
         line.SetPositions(points);
-    }
-
-    public static void SetManagersChild(Transform child)
-    {
-        GameObject managers = GameObject.Find("Managers");
-        if (managers == null)
-        {
-            managers = new GameObject { name = "Managers" };
-        }
-
-        child.parent = managers.transform;
     }
 }

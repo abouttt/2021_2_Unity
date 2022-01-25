@@ -11,11 +11,14 @@ public class CreepController : MonoBehaviour
     [SerializeField]
     private float _deactiveTime = 1.0f;
 
+    [ReadOnly, SerializeField]
     private int _currentHp = 0;
     private int _wayIndex = 0;
+    public float SlowPer { get; set; } = 0;
+    public bool IsSlow { get; set; }
     private bool _isDeactive = false;
 
-    private Animator _animator;
+    private Animator _animator = null;
 
     public int Hp
     {
@@ -30,7 +33,6 @@ public class CreepController : MonoBehaviour
                 {
                     _animator.SetBool("isDie", true);
                     _isDeactive = true;
-                    // 너무 시끄러움
                     //SoundManager.Instance.Play("UnitDestroyed");
                     StartCoroutine(OnDeactive());
                 }
@@ -40,8 +42,8 @@ public class CreepController : MonoBehaviour
 
     private void Start()
     {
-        _currentHp = _maxHp;
         _animator = transform.Find("Body").GetComponent<Animator>();
+        Clear();
     }
 
     private void Update()
@@ -53,10 +55,16 @@ public class CreepController : MonoBehaviour
     private void MoveToWayPoint()
     {
         Vector3 dir = SpawnManager.Instance.WayPoints[_wayIndex].position - transform.position;
-        transform.position += dir.normalized * _moveSpeed * Time.deltaTime;
+        dir.y = 0.0f;
+
+        if (IsSlow)
+            transform.position += dir.normalized * (_moveSpeed - (_moveSpeed * (0.01f * SlowPer))) * Time.deltaTime;
+        else
+            transform.position += dir.normalized * _moveSpeed * Time.deltaTime;
+
         transform.rotation = Quaternion.LookRotation(dir);
 
-        if (dir.magnitude <= 0.001f)
+        if (dir.magnitude <= 0.1f)
         {
             _wayIndex++;
             if (SpawnManager.Instance.WayPoints.Count <= _wayIndex)

@@ -593,6 +593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3303857815781299898}
   - component: {fileID: 3303857815787922056}
+  - component: {fileID: 4118619723464598711}
   m_Layer: 29
   m_Name: TowerBeamLaser
   m_TagString: Untagged
@@ -629,3 +630,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.1, z: 1}
   m_Center: {x: 0, y: 0.55, z: 0}
+--- !u!114 &4118619723464598711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3303857815781460634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c01939d10d3c340800550de7658274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _range: 4.5
+  _damage: 10
+  _attackDelayTime: 1

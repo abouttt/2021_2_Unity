@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TowerCanon : TowerBase
+public class CanonTower : TowerBase
 {
     [SerializeField]
     private float _attackDelayTime = 1.0f;
 
     private Transform _shootPoint = null;
-    private bool _isAttacking = false;
 
     private void Start()
     {
+        if (!IsBuilded)
+            return;
+
         _shootPoint = FindShootPoint();
     }
 
@@ -22,7 +24,7 @@ public class TowerCanon : TowerBase
 
         if (_target == null)
         {
-            _target = FindTarget("Enemy");
+            FindTarget("EnemyGround");
         }
         else
         {
@@ -42,25 +44,11 @@ public class TowerCanon : TowerBase
             if (!IsOnTarget())
                 yield break;
 
-            GameObject projectile = ResourceManager.Instance.Instantiate("ShootObjects/Projectile_Bolt");
-            projectile.transform.position = _shootPoint.position;
-            projectile.GetComponent<Projectile>().Target = _target.transform;
+            GameObject projectile = ResourceManager.Instance.Instantiate("ShootObjects/Canon_Bolt");
+            projectile.GetComponent<Projectile>().Setup(_shootPoint.position, _target);
             SoundManager.Instance.Play("CanonTowerShoot");
 
             yield return new WaitForSeconds(_attackDelayTime);
         }
-    }
-
-    private bool IsOnTarget()
-    {
-        float dist = (_target.transform.position - transform.position).magnitude;
-        if (dist > Range + 0.8f || _target.GetComponent<CreepController>().Hp <= 0 || !_target.activeSelf)
-        {
-            _target = null;
-            _isAttacking = false;
-            return false;
-        }
-
-        return true;
     }
 }

@@ -9,8 +9,10 @@ public class TowerBase : MonoBehaviour
 
     public bool IsBuilded { get; set; } = false;
 
+    protected bool _isAttacking = false;
+
     protected GameObject _target = null;
-    protected GameObject[] _targets = null;
+    protected List<GameObject> _targets = new List<GameObject>();
 
     public float Range
     {
@@ -18,35 +20,36 @@ public class TowerBase : MonoBehaviour
         protected set { _range = value; }
     }
 
-    protected GameObject FindTarget(string layerName)
+    protected void FindTarget(string layerName)
     {
         Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, Range, LayerMask.GetMask(layerName));
         foreach (Collider collider in colliders)
         {
-            return collider.gameObject;
+            _target = collider.gameObject;
         }
-
-        return null;
     }
 
-    protected GameObject[] FindTargets(params string[] layerNames)
+    protected void FindTargets(params string[] layerNames)
     {
         Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, Range, LayerMask.GetMask(layerNames));
-        GameObject[] targets = new GameObject[colliders.Length];
         for (int i = 0; i < colliders.Length; i++)
         {
-            targets[i] = colliders[i].gameObject;
+            _targets.Add(colliders[i].gameObject);
         }
-
-        return targets;
     }
 
-    protected Transform FindShootPoint()
+    protected Transform FindShootPoint(string num = null)
     {
+        string shootPointStr = "ShootPoint";
+        if(num != null)
+        {
+            shootPointStr += num;
+        }
+
         Transform[] allChildren = GetComponentsInChildren<Transform>();
         foreach (Transform child in allChildren)
         {
-            if (child.name == "ShootPoint")
+            if (child.name == shootPointStr)
                 return child;
         }
 
@@ -59,5 +62,18 @@ public class TowerBase : MonoBehaviour
         Vector3 dir = _target.transform.position - transform.position;
         dir.y = 0.0f;
         transform.rotation = Quaternion.LookRotation(dir);
+    }
+
+    protected bool IsOnTarget()
+    {
+        float dist = Vector3.Distance(_target.transform.position, transform.position);
+        if (dist > Range + 0.8f || _target.GetComponent<CreepController>().Hp <= 0 || !_target.activeSelf)
+        {
+            _target = null;
+            _isAttacking = false;
+            return false;
+        }
+
+        return true;
     }
 }

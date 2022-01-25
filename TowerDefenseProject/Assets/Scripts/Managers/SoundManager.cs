@@ -99,7 +99,7 @@ public class SoundManager : MonoBehaviour
             }
 
             s_instance = go.GetComponent<SoundManager>();
-            Util.SetManagersChild(s_instance.transform);
+            Util.SetChildAsParent("Managers", s_instance.transform);
 
             string[] soundNames = System.Enum.GetNames(typeof(SoundType));
             for (int i = 0; i < soundNames.Length - 1; i++)

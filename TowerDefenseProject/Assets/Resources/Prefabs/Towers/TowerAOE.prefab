@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 364245600766066711}
   - component: {fileID: 364245600765296695}
   - component: {fileID: 364245600764166903}
+  - component: {fileID: 7259726538825541080}
   m_Layer: 0
   m_Name: Hexagon
   m_TagString: Untagged
@@ -219,13 +220,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364245600766434359}
-  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.2}
   m_Children: []
   m_Father: {fileID: 364245600766066705}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &364245600765296695
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -275,6 +276,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7259726538825541080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364245600766434359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 161680d97c9c77f4381e737746369950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _xRotSpeed: 0
+  _yRotSpeed: 0
+  _zRotSpeed: 100
+  _isXRotate: 0
+  _isYRotate: 0
+  _isZRotate: 1
 --- !u!1 &364245600766434365
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 364245600766066717}
   - component: {fileID: 364245600768373813}
+  - component: {fileID: -7736192820421898473}
   m_Layer: 29
   m_Name: TowerAOE
   m_TagString: Untagged
@@ -352,3 +372,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &-7736192820421898473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364245600766434367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961ef4ce37129bd4292099ffe2051d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _range: 3.5
+  SlowPercent: 30

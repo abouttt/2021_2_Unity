@@ -71,6 +71,7 @@ public class BuildManager : MonoBehaviour
         {
             Destroy(_towerSelect);
             GameObject tower = Instantiate(_towerPrefab, _hit.point, Quaternion.identity);
+            Util.SetChildAsParent("Towers", tower.transform);
             tower.layer = LayerMask.NameToLayer("Tower");
             tower.GetComponent<TowerBase>().IsBuilded = true;
         }
@@ -104,12 +105,37 @@ public class BuildManager : MonoBehaviour
             }
 
             s_instance = go.GetComponent<BuildManager>();
-            Util.SetManagersChild(s_instance.transform);
+            Util.SetChildAsParent("Managers", s_instance.transform);
         }
     }
 
-    public void OnClickButtonTowerCanon()
+    public void OnClickButtonCanonTower()
     {
         SetupTower("TowerCanon");
+    }
+
+    public void OnClickButtonMGTower()
+    {
+        SetupTower("TowerMG");
+    }
+
+    public void OnClickButtonLaserTower()
+    {
+        SetupTower("TowerBeamLaser");
+    }
+
+    public void OnClickButtonMissileTower()
+    {
+        SetupTower("TowerMissile");
+    }
+
+    public void OnClickButtonAOETower()
+    {
+        SetupTower("TowerAOE");
+    }
+
+    public void OnClickButtonSupportTower()
+    {
+        SetupTower("TowerSupport");
     }
 }
