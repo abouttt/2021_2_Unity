@@ -10,6 +10,8 @@ public class CreepController : MonoBehaviour
     private float _moveSpeed = 5.0f;
     [SerializeField]
     private float _deactiveTime = 1.0f;
+    [SerializeField]
+    private int _plusGameMoney = 50;
 
     [ReadOnly, SerializeField]
     private int _currentHp = 0;
@@ -19,6 +21,8 @@ public class CreepController : MonoBehaviour
     private bool _isDeactive = false;
 
     private Animator _animator = null;
+
+    public int MaxHp { get { return _maxHp; } private set { } }
 
     public int Hp
     {
@@ -31,8 +35,12 @@ public class CreepController : MonoBehaviour
 
                 if (_currentHp <= 0)
                 {
-                    _animator.SetBool("isDie", true);
                     _isDeactive = true;
+                    GameData.Instance.GameMoney += _plusGameMoney;
+                    if (MaxHp >= 200)
+                        ResourceManager.Instance.Instantiate("Effects/Explosion_ShockWave", transform.position);
+                    else
+                        ResourceManager.Instance.Instantiate("Effects/Explosion", transform.position);
                     //SoundManager.Instance.Play("UnitDestroyed");
                     StartCoroutine(OnDeactive());
                 }
@@ -69,10 +77,10 @@ public class CreepController : MonoBehaviour
             _wayIndex++;
             if (SpawnManager.Instance.WayPoints.Count <= _wayIndex)
             {
-                _animator.SetBool("isArrival", true);
                 if (!_isDeactive)
                 {
                     _isDeactive = true;
+                    GameData.Instance.GameLife -= 10;
                     StartCoroutine(OnDeactive());
                 }
             }
@@ -84,8 +92,6 @@ public class CreepController : MonoBehaviour
         _currentHp = _maxHp;
         _wayIndex = 0;
         _isDeactive = false;
-        _animator.SetBool("isDie", false);
-        _animator.SetBool("isArrival", false);
     }
 
     private IEnumerator OnDeactive()

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6421880928446874769}
   - component: {fileID: 6421880928445580465}
   - component: {fileID: 6421880928444581489}
+  - component: {fileID: 7935860553374858185}
   m_Layer: 0
   m_Name: Hexagon
   m_TagString: Untagged
@@ -81,6 +82,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7935860553374858185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6421880928446519473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 161680d97c9c77f4381e737746369950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _xRotSpeed: 0
+  _yRotSpeed: 0
+  _zRotSpeed: 100
+  _isXRotate: 0
+  _isYRotate: 0
+  _isZRotate: 1
 --- !u!1 &6421880928446519475
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6421880928446874775}
   - component: {fileID: 6421880928440398001}
+  - component: {fileID: -2026214632080641724}
   m_Layer: 29
   m_Name: TowerAOE2
   m_TagString: Untagged
@@ -331,7 +351,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6421880928446519483}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 0, z: 2.5}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6421880928446874773}
@@ -352,3 +372,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0.6, z: 0}
+--- !u!114 &-2026214632080641724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6421880928446519483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 961ef4ce37129bd4292099ffe2051d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _range: 4
+  _price: 300
+  SlowPercent: 60

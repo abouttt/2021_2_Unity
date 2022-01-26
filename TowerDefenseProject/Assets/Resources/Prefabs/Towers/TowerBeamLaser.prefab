@@ -643,5 +643,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _range: 4.5
+  _price: 300
   _damage: 10
   _attackDelayTime: 1

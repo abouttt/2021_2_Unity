@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5978656573657303481}
   - component: {fileID: 5978656573650697623}
+  - component: {fileID: -5430489591330072346}
   m_Layer: 29
   m_Name: TowerSupport
   m_TagString: Untagged
@@ -46,6 +47,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!114 &-5430489591330072346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5978656573657077127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa20f85c71e942940871e40c3bebfc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _range: 3.5
+  _price: 350
+  _supportAttackSpeedPer: 35
 --- !u!1 &5978656573657077137
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,6 +378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5978656573657303463}
+  - component: {fileID: 2674901991105477451}
   m_Layer: 29
   m_Name: TurretObj
   m_TagString: Untagged
@@ -385,6 +402,24 @@ Transform:
   m_Father: {fileID: 5978656573657303481}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2674901991105477451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5978656573657077147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 161680d97c9c77f4381e737746369950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _xRotSpeed: 0
+  _yRotSpeed: 100
+  _zRotSpeed: 0
+  _isXRotate: 0
+  _isYRotate: 1
+  _isZRotate: 0
 --- !u!1 &5978656573657077149
 GameObject:
   m_ObjectHideFlags: 0

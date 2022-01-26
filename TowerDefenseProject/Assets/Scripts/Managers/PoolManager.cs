@@ -132,7 +132,7 @@ public class PoolManager : MonoBehaviour
             }
 
             s_instance = go.GetComponent<PoolManager>();
-            Util.SetChildAsParent("Managers", s_instance.transform);
+            Util.FindOrAddParentSetChild("Managers", s_instance.transform);
 
             if (_root == null)
             {

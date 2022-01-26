@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _range: 4
+  _price: 200
   _damage: 5
   _attackDelayTime: 1
   _shootDelayTime: 0.12

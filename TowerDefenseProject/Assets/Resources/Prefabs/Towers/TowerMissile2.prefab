@@ -1155,6 +1155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5524454014680914867}
   - component: {fileID: 5524454014687408025}
+  - component: {fileID: 4816574567554398731}
   m_Layer: 29
   m_Name: TowerMissile2
   m_TagString: Untagged
@@ -1170,7 +1171,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5524454014681270265}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 2.5}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5524454014680914865}
@@ -1191,3 +1192,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.1, z: 1}
   m_Center: {x: 0, y: 0.55, z: 0}
+--- !u!114 &4816574567554398731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5524454014681270265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43d794f82b28e5942b128b022553ba01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _range: 4
+  _price: 200
+  _attackDelayTime: 1
+  _isUpgrade: 1

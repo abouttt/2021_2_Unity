@@ -384,5 +384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961ef4ce37129bd4292099ffe2051d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _range: 3.5
-  SlowPercent: 30
+  _range: 4
+  _price: 250
+  SlowPercent: 40

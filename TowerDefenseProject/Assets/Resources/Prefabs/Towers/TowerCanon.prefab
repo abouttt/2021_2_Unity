@@ -222,6 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _range: 3.5
+  _price: 100
   _attackDelayTime: 1
 --- !u!1 &2754320754117225063
 GameObject:

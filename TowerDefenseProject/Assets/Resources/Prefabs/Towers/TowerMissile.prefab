@@ -603,7 +603,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _range: 4
+  _price: 150
   _attackDelayTime: 1
+  _isUpgrade: 0
 --- !u!1 &2230561099062164497
 GameObject:
   m_ObjectHideFlags: 0

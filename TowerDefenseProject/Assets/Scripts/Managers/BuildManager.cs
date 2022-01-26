@@ -9,6 +9,7 @@ public class BuildManager : MonoBehaviour
 
     private GameObject _towerPrefab = null;
     private GameObject _towerSelect = null;
+    private GameObject _buildedTower = null;
 
     private RaycastHit _hit;
     private readonly float _towerBuildOverlapRadius = 0.75f;
@@ -21,6 +22,8 @@ public class BuildManager : MonoBehaviour
 
     private void Update()
     {
+        RayToTower();
+
         CheckBuildable();
 
         if (Input.GetMouseButtonDown(0))
@@ -71,9 +74,10 @@ public class BuildManager : MonoBehaviour
         {
             Destroy(_towerSelect);
             GameObject tower = Instantiate(_towerPrefab, _hit.point, Quaternion.identity);
-            Util.SetChildAsParent("Towers", tower.transform);
+            Util.FindOrAddParentSetChild("Towers", tower.transform);
             tower.layer = LayerMask.NameToLayer("Tower");
             tower.GetComponent<TowerBase>().IsBuilded = true;
+            GameData.Instance.GameMoney -= tower.GetComponent<TowerBase>().Price;
         }
         else
         {
@@ -85,10 +89,54 @@ public class BuildManager : MonoBehaviour
         _isBuildable = false;
     }
 
+    private void RayToTower()
+    {
+        if (_towerSelect != null || _towerPrefab != null)
+            return;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 999f, LayerMask.GetMask("Tower")))
+            {
+                if (_buildedTower != hit.collider.gameObject)
+                    DeleteUITower();
+                else
+                    return;
+
+                _buildedTower = hit.collider.gameObject;
+                CreateUITower();
+            }
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            DeleteUITower();
+        }
+    }
+
+    private void CreateUITower()
+    {
+        ResourceManager.Instance.Instantiate("UI/UI_Tower", _buildedTower.transform);
+    }
+
+    private void DeleteUITower()
+    {
+        if (_buildedTower == null)
+            return;
+
+        Destroy(Util.FindChild<UI_Tower>(_buildedTower).gameObject);
+        _buildedTower = null;
+    }
+
     private void SetupTower(string towerName)
     {
         string path = $"Prefabs/Towers/{towerName}";
         GameObject tower = ResourceManager.Instance.Load<GameObject>(path);
+
+        if (GameData.Instance.GameMoney < tower.GetComponent<TowerBase>().Price)
+            return;
+
         _towerPrefab = tower;
         _towerSelect = Instantiate(tower, Input.mousePosition, Quaternion.identity);
     }
@@ -105,7 +153,7 @@ public class BuildManager : MonoBehaviour
             }
 
             s_instance = go.GetComponent<BuildManager>();
-            Util.SetChildAsParent("Managers", s_instance.transform);
+            Util.FindOrAddParentSetChild("Managers", s_instance.transform);
         }
     }
 

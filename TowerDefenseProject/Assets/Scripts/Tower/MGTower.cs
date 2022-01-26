@@ -99,7 +99,10 @@ public class MGTower : TowerBase
             _muzzle_1.SetActive(false);
             _muzzle_2.SetActive(false);
 
-            yield return new WaitForSeconds(_attackDelayTime);
+            if (IsGetSupporting)
+                yield return new WaitForSeconds(_attackDelayTime - (_attackDelayTime * (0.01f * AttackSpeedUpgradePer)));
+            else
+                yield return new WaitForSeconds(_attackDelayTime);
         }
     }
 }

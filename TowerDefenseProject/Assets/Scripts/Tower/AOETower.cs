@@ -5,7 +5,7 @@ using UnityEngine;
 public class AOETower : TowerBase
 {
     [SerializeField]
-    private float SlowPercent = 0;
+    private float SlowPercent = 0.0f;
 
     private void Update()
     {
@@ -13,23 +13,20 @@ public class AOETower : TowerBase
             return;
 
         FindTargets("EnemyGround", "EnemyFlying");
-        SlowTarget();
-        CheckTargetDistance();
+        SlowTargets();
+        CheckTargetsState();
     }
 
-    private void SlowTarget()
+    private void SlowTargets()
     {
         foreach (GameObject target in _targets)
         {
-            if (!target.GetComponent<CreepController>().IsSlow)
-            {
-                target.GetComponent<CreepController>().SlowPer = SlowPercent;
-                target.GetComponent<CreepController>().IsSlow = true;
-            }
+            target.GetComponent<CreepController>().SlowPer = SlowPercent;
+            target.GetComponent<CreepController>().IsSlow = true;
         }
     }
 
-    private void CheckTargetDistance()
+    private void CheckTargetsState()
     {
         for (int i = _targets.Count - 1; i >= 0; i--)
         {
@@ -41,5 +38,16 @@ public class AOETower : TowerBase
                 _targets.Remove(_targets[i]);
             }
         }
+    }
+
+    public override void Destroy()
+    {
+        foreach (GameObject target in _targets)
+        {
+            target.GetComponent<CreepController>().SlowPer = 0;
+            target.GetComponent<CreepController>().IsSlow = false;
+        }
+
+        base.Destroy();
     }
 }

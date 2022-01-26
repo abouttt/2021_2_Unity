@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 399758275533558}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 5868853100822345224}
@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 8710624852886462637}
   - component: {fileID: -8918789352245918395}
   - component: {fileID: 4472780208796510772}
+  - component: {fileID: -7164495239736654370}
   m_Layer: 10
   m_Name: CreepCube_Flying
   m_TagString: Untagged
@@ -177,7 +178,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 0.44, y: 0.44, z: 0.44}
   m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!54 &-8918789352245918395
 Rigidbody:
@@ -208,6 +209,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHp: 50
-  _moveSpeed: 5
+  _moveSpeed: 3
   _deactiveTime: 1
+  _plusGameMoney: 80
   _currentHp: 0
+--- !u!114 &-7164495239736654370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4289619839684003211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bccd2a3a7c58eae4ab268dc1893746fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsUsing: 0

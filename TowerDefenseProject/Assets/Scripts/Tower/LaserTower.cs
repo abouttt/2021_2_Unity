@@ -54,7 +54,11 @@ public class LaserTower : TowerBase
             _target.GetComponent<CreepController>().Hp -= _damage;
             SoundManager.Instance.Play("Sounds/LaserTowerShoot");
 
-            yield return new WaitForSeconds(_attackDelayTime);
+            if (IsGetSupporting)
+                yield return new WaitForSeconds(_attackDelayTime - (_attackDelayTime * (0.01f * AttackSpeedUpgradePer)));
+            else
+                yield return new WaitForSeconds(_attackDelayTime);
+
             _beamLaser.SetActive(false);
         }
     }

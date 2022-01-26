@@ -10,7 +10,8 @@ public class MapEditor : MonoBehaviour
     public void SetupMap(Vector3 startPoint)
     {
         DrawWayPathLine(startPoint);
-        ResourceManager.Instance.Instantiate("Environment/PathArrow");
+        GameObject arrow = ResourceManager.Instance.Instantiate("Environment/PathArrow");
+        Util.FindOrAddParentSetChild("Environment", arrow.transform);
     }
 
     private void DrawWayPathLine(Vector3 startPoint)
@@ -40,7 +41,7 @@ public class MapEditor : MonoBehaviour
             }
 
             s_instance = go.GetComponent<MapEditor>();
-            Util.SetChildAsParent("Managers", s_instance.transform);
+            Util.FindOrAddParentSetChild("Managers", s_instance.transform);
         }
     }
 }

@@ -6,6 +6,8 @@ public class CanonTower : TowerBase
 {
     [SerializeField]
     private float _attackDelayTime = 1.0f;
+    [SerializeField]
+    private bool _isUpgrade = false;
 
     private Transform _shootPoint = null;
 
@@ -44,11 +46,19 @@ public class CanonTower : TowerBase
             if (!IsOnTarget())
                 yield break;
 
-            GameObject projectile = ResourceManager.Instance.Instantiate("ShootObjects/Canon_Bolt");
+            GameObject projectile = null;
+            if (_isUpgrade)
+                projectile = ResourceManager.Instance.Instantiate("ShootObjects/Canon_Bolt2");
+            else
+                projectile = ResourceManager.Instance.Instantiate("ShootObjects/Canon_Bolt");
+
             projectile.GetComponent<Projectile>().Setup(_shootPoint.position, _target);
             SoundManager.Instance.Play("CanonTowerShoot");
 
-            yield return new WaitForSeconds(_attackDelayTime);
+            if (IsGetSupporting)
+                yield return new WaitForSeconds(_attackDelayTime - (_attackDelayTime * (0.01f * AttackSpeedUpgradePer)));
+            else
+                yield return new WaitForSeconds(_attackDelayTime);
         }
     }
 }

@@ -12,7 +12,7 @@ public class Util
         return component;
     }
 
-    public static void SetChildAsParent(string parentName, Transform child)
+    public static void FindOrAddParentSetChild(string parentName, Transform child)
     {
         GameObject parent = GameObject.Find(parentName);
         if (parent == null)

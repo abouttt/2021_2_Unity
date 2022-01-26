@@ -593,6 +593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3417916079456723338}
   - component: {fileID: 3417916079462684076}
+  - component: {fileID: 8779075987603530794}
   m_Layer: 29
   m_Name: TowerBeamLaser2
   m_TagString: Untagged
@@ -608,7 +609,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3417916079456566718}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 2.5}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3417916079456723336}
@@ -629,3 +630,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.1, z: 1}
   m_Center: {x: 0, y: 0.55, z: 0}
+--- !u!114 &8779075987603530794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3417916079456566718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c01939d10d3c340800550de7658274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _range: 4.5
+  _price: 350
+  _damage: 20
+  _attackDelayTime: 1

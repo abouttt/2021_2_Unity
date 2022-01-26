@@ -6,6 +6,8 @@ public class MissileTower : TowerBase
 {
     [SerializeField]
     private float _attackDelayTime = 1.0f;
+    [SerializeField]
+    private bool _isUpgrade = false;
 
     private Transform[] _shootPoints = null;
 
@@ -48,12 +50,20 @@ public class MissileTower : TowerBase
 
             for (int i = 0; i < _shootPoints.Length; i++)
             {
-                GameObject projectile = ResourceManager.Instance.Instantiate("ShootObjects/Missile_Bolt");
+                GameObject projectile = null;
+                if (_isUpgrade)
+                    projectile = ResourceManager.Instance.Instantiate("ShootObjects/Missile_Bolt2");
+                else
+                    projectile = ResourceManager.Instance.Instantiate("ShootObjects/Missile_Bolt");
+
                 projectile.GetComponent<Projectile>().Setup(_shootPoints[i].position, _target);
                 SoundManager.Instance.Play("MissileTowerShoot");
             }
 
-            yield return new WaitForSeconds(_attackDelayTime);
+            if (IsGetSupporting)
+                yield return new WaitForSeconds(_attackDelayTime - (_attackDelayTime * (0.01f * AttackSpeedUpgradePer)));
+            else
+                yield return new WaitForSeconds(_attackDelayTime);
         }
     }
 }

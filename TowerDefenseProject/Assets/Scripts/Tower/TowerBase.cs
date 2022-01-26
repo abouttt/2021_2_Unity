@@ -6,9 +6,13 @@ public class TowerBase : MonoBehaviour
 {
     [SerializeField]
     private float _range = 0.0f;
+    [SerializeField]
+    private int _price = 0;
 
+    public int Price { get { return _price; } protected set { _price = value; } }
     public bool IsBuilded { get; set; } = false;
-
+    public bool IsGetSupporting { get; set; } = false;
+    public float AttackSpeedUpgradePer { get; set; }
     protected bool _isAttacking = false;
 
     protected GameObject _target = null;
@@ -41,7 +45,7 @@ public class TowerBase : MonoBehaviour
     protected Transform FindShootPoint(string num = null)
     {
         string shootPointStr = "ShootPoint";
-        if(num != null)
+        if (num != null)
         {
             shootPointStr += num;
         }
@@ -75,5 +79,10 @@ public class TowerBase : MonoBehaviour
         }
 
         return true;
+    }
+
+    public virtual void Destroy() 
+    {
+        Destroy(gameObject);
     }
 }
