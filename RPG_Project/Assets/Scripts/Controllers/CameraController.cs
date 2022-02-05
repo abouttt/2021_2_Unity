@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
+using System.Linq;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -36,7 +34,7 @@ public class CameraController : MonoBehaviour
 
     private void RayHitObstacleTranslucency()
     {
-        if (_obstacleHits != null)
+        if (_obstacleHits.Count > 0)
         {
             foreach (RaycastHit hit in _obstacleHits)
             {
@@ -46,7 +44,9 @@ public class CameraController : MonoBehaviour
         }
 
         float dist = Vector3.Distance(_target.transform.position, transform.position);
-        _obstacleHits = new List<RaycastHit>(Physics.RaycastAll(_target.transform.position, _delta.normalized, dist, LayerMask.GetMask("Obstacle")));
+        //Debug.DrawRay(_target.transform.position, _delta.normalized * dist, Color.red);
+        RaycastHit[] hits = Physics.RaycastAll(_target.transform.position, _delta.normalized, dist, LayerMask.GetMask("Obstacle"));
+        _obstacleHits = hits.ToList();
         foreach (RaycastHit hit in _obstacleHits)
         {
             Renderer renderer = hit.collider.GetComponentInChildren<Renderer>();
