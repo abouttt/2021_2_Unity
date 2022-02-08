@@ -9,7 +9,7 @@ public class FollowTargetWorldToScreen : MonoBehaviour
     [SerializeField]
     private Vector3 _delta;
 
-    private void Update()
+    private void LateUpdate()
     {
         if (_target == null)
             return;

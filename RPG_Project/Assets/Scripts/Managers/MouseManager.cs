@@ -1,6 +1,6 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class MouseManager
 {
@@ -12,8 +12,19 @@ public class MouseManager
     private GameObject _objectNameCanvas = null;
     private GameObject _objectNameText = null;
 
+    private Texture2D _attackIcon = null;
+    private Texture2D _handIcon = null;
+    CursorType _cursorType = CursorType.None;
+
     private bool _pressed = false;
     private float _pressedTime = 0;
+
+    public enum CursorType
+    {
+        None,
+        Attack,
+        Hand,
+    }
 
     public void OnUpdate()
     {
@@ -30,6 +41,24 @@ public class MouseManager
         if (UnityEngine.Input.GetMouseButton(0))
             return;
 
+        Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Monster)))
+        {
+            if (_cursorType != CursorType.Attack)
+            {
+                Cursor.SetCursor(_attackIcon, new Vector2(_attackIcon.width / 5, 0), CursorMode.Auto);
+                _cursorType = CursorType.Attack;
+            }
+        }
+        else
+        {
+            if (_cursorType != CursorType.Hand)
+            {
+                Cursor.SetCursor(_handIcon, new Vector2(_handIcon.width / 3, 0), CursorMode.Auto);
+                _cursorType = CursorType.Hand;
+            }
+        }
     }
 
     private void Input()
@@ -120,8 +149,11 @@ public class MouseManager
         Object.DontDestroyOnLoad(root);
 
         _objectNameCanvas = Managers.Resource.Instantiate("UI/ObjectNameCanvas");
-        _objectNameCanvas.transform.SetParent(root.transform); 
+        _objectNameCanvas.transform.SetParent(root.transform);
         _objectNameText = _objectNameCanvas.transform.GetChild(0).gameObject;
         _objectNameText.SetActive(false);
+
+        _attackIcon = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Attack");
+        _handIcon = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Basic");
     }
 }

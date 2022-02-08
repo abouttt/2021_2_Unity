@@ -20,13 +20,13 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Managers.Mouse.MouseAction -= OnMouseEvent;
         Managers.Mouse.MouseAction += OnMouseEvent;
 
         _animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
 
-        InitClickMoveArrow();
+        _clickMoveArrow = Managers.Resource.Instantiate("Interactive/ClickMoveArrows");
+        _clickMoveArrow.GetComponent<ParticleSystem>().Stop();
     }
 
     private void Update()
@@ -35,15 +35,9 @@ public class PlayerController : MonoBehaviour
         CheckMoveable();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Teleport")
-            _isCanMove = false;
-    }
-
     private void OnMouseEvent(Define.MouseEvent evt)
     {
-        SetDestinationPos();
+        SetDestination();
 
         if (evt == Define.MouseEvent.PointerDown)
             SetClickMoveArrowPos(_destPos);
@@ -55,7 +49,7 @@ public class PlayerController : MonoBehaviour
             _isCanMove = false;
     }
 
-    private void SetDestinationPos()
+    private void SetDestination()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -87,11 +81,5 @@ public class PlayerController : MonoBehaviour
         pos.y = 0.1f;
         _clickMoveArrow.transform.position = pos;
         _clickMoveArrow.GetComponent<ParticleSystem>().Play();
-    }
-
-    private void InitClickMoveArrow()
-    {
-        _clickMoveArrow = Managers.Resource.Instantiate("Interactive/ClickMoveArrows");
-        _clickMoveArrow.GetComponent<ParticleSystem>().Stop();
     }
 }

@@ -10,4 +10,5 @@ public class ObjectInfo : MonoBehaviour
     private Define.ObjectTier _tier = Define.ObjectTier.Normal;
 
     public string Name { get { return _name; } }
+    public Define.ObjectTier Tier { get { return _tier; } }
 }
