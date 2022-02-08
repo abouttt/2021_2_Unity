@@ -10,6 +10,8 @@ public class RayHitChangeColor : MonoBehaviour
     private LayerMask _layerMask;
     [SerializeField]
     private Color _color;
+    [SerializeField]
+    private bool _showDrawLay;
 
     private List<RaycastHit> _obstacleHits = new List<RaycastHit>();
     private readonly Color _colorOrigin = new Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -30,8 +32,13 @@ public class RayHitChangeColor : MonoBehaviour
             }
         }
 
+        _obstacleHits.Clear();
+
         Vector3 dir = _target.transform.position - transform.position;
-        Debug.DrawRay(transform.position, dir.normalized * dir.magnitude, Color.red);
+
+        if (_showDrawLay)
+            Debug.DrawRay(transform.position, dir.normalized * dir.magnitude, Color.red);
+
         RaycastHit[] hits = Physics.RaycastAll(transform.position, dir.normalized, dir.magnitude, _layerMask);
         _obstacleHits = hits.ToList();
         foreach (RaycastHit hit in _obstacleHits)
