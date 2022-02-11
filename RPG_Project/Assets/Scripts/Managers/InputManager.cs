@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class MouseManager
+public class InputManager
 {
-    public System.Action<Define.MouseEvent> MouseAction = null;
+    public Action KeyAction = null;
+    public Action<Define.MouseEvent> MouseAction = null;
 
     private int _mask = (1 << (int)Define.Layer.Monster) | (1 << (int)Define.Layer.Interaction);
 
@@ -28,6 +30,9 @@ public class MouseManager
 
     public void OnUpdate()
     {
+        if (UnityEngine.Input.anyKey && KeyAction != null)
+            KeyAction.Invoke();
+
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
@@ -106,7 +111,7 @@ public class MouseManager
 
             if (_mousePointTarget.gameObject.layer == (int)Define.Layer.Interaction)
             {
-                SetObjectNameText();
+                SetObjectNameUIText();
             }
             if (_mousePointTarget.gameObject.layer == (int)Define.Layer.Monster)
             {
@@ -136,7 +141,7 @@ public class MouseManager
         _mousePointTarget = null;
     }
 
-    private void SetObjectNameText()
+    private void SetObjectNameUIText()
     {
         _objectNameText.SetActive(true);
         _objectNameText.GetComponent<FollowTargetWorldToScreen>().SetTarget(_mousePointTarget);
@@ -146,7 +151,7 @@ public class MouseManager
     public void Init()
     {
         GameObject root = new GameObject("MouseManager_Root");
-        Object.DontDestroyOnLoad(root);
+        UnityEngine.Object.DontDestroyOnLoad(root);
 
         _objectNameCanvas = Managers.Resource.Instantiate("UI/ObjectNameCanvas");
         _objectNameCanvas.transform.SetParent(root.transform);

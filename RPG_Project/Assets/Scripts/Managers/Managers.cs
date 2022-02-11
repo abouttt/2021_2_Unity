@@ -7,10 +7,10 @@ public class Managers : MonoBehaviour
     private static Managers s_instance;
     private static Managers Instance { get { Init(); return s_instance; } }
 
-    MouseManager _mouse = new MouseManager();
+    InputManager _input = new InputManager();
     ResourceManager _resource = new ResourceManager();
 
-    public static MouseManager Mouse { get { return Instance._mouse; } }
+    public static InputManager Input { get { return Instance._input; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
 
     private void Start()
@@ -20,7 +20,7 @@ public class Managers : MonoBehaviour
 
     private void Update()
     {
-        _mouse.OnUpdate();
+        _input.OnUpdate();
     }
 
     private static void Init()
@@ -37,7 +37,7 @@ public class Managers : MonoBehaviour
             DontDestroyOnLoad(go);
             s_instance = go.GetComponent<Managers>();
 
-            s_instance._mouse.Init();
+            s_instance._input.Init();
         }
     }
 }

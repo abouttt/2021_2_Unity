@@ -17,10 +17,11 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _destPos;
     private bool _isCanMove = true;
+    private bool _isMoveStart = false;
 
     private void Start()
     {
-        Managers.Mouse.MouseAction += OnMouseEvent;
+        Managers.Input.MouseAction += OnMouseEvent;
 
         _animator = GetComponent<Animator>();
         _characterController = GetComponent<CharacterController>();
@@ -39,8 +40,17 @@ public class PlayerController : MonoBehaviour
     {
         SetDestination();
 
-        if (evt == Define.MouseEvent.PointerDown)
-            SetClickMoveArrowPos(_destPos);
+        switch (evt)
+        {
+            case Define.MouseEvent.PointerDown:
+                _isMoveStart = true;
+                SetClickMoveArrowPos(_destPos);
+                break;
+
+            case Define.MouseEvent.PointerUp:
+                _isMoveStart = false;
+                break;
+        }  
     }
 
     private void CheckMoveable()
