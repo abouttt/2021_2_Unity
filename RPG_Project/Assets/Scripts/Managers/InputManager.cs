@@ -145,7 +145,26 @@ public class InputManager
     {
         _objectNameText.SetActive(true);
         _objectNameText.GetComponent<FollowTargetWorldToScreen>().SetTarget(_mousePointTarget);
-        _objectNameText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _mousePointTarget.GetComponent<ObjectInfo>().Name;
+        _objectNameText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _mousePointTarget.GetComponent<ItemInfo>().Name;
+        SetObjectNameTextColor();
+    }
+
+    private void SetObjectNameTextColor()
+    {
+        Define.ItemTier tier = _mousePointTarget.GetComponent<ItemInfo>().Tier;
+        TextMeshProUGUI textMesh = _objectNameText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        switch (tier)
+        {
+            case Define.ItemTier.Normal:
+                textMesh.color = Color.white;
+                break;
+            case Define.ItemTier.Rare:
+                textMesh.color = Color.blue;
+                break;
+            case Define.ItemTier.Legend:
+                textMesh.color = Color.yellow;
+                break;
+        }
     }
 
     public void Init()

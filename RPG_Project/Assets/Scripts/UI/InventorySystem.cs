@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,42 +10,64 @@ public class InventorySystem : MonoBehaviour
 {
     [SerializeField]
     private KeyCode _activeKey = KeyCode.I;
+    [SerializeField]
+    private GameObject _slotsParent = null;
+    [SerializeField]
+    private GameObject _testItem = null;
 
-    private GraphicRaycaster _gr = null;
-    private PointerEventData _ped = null;
-    private List<RaycastResult> _raycastResultList = null;
+    private List<UI_ItemSlot> _slotList = null;
 
     private void Start()
     {
         Managers.Input.KeyAction += OpenInventory;
-        _gr = GetComponent<GraphicRaycaster>();
-        _ped = new PointerEventData(null);
-        _raycastResultList = new List<RaycastResult>();
+
+        SetItemSlotIndex();
+        CheckInventoryHasItem();
+        AddItem(_testItem.GetComponent<ItemInfo>());
     }
 
     private void Update()
     {
-        _ped.position = Input.mousePosition;
-        List<RaycastResult> results = new List<RaycastResult>();
-        _gr.Raycast(_ped, results);
-        if (results.Count <= 0) 
-            return;
-
-        // 이벤트 처리부분
-        //results[0].gameObject.transform.position = _ped.position;
-
+        Debug.Log(_slotList.Capacity);
+        Debug.Log(_slotList.Count);
     }
 
-    private T RaycastAndGetFirstComponent<T>() where T : Component
+    public void AddItem(ItemInfo itemInfo)
     {
-        _raycastResultList.Clear();
+        foreach(UI_ItemSlot slot in _slotList)
+        {
+            if (!slot.IsHasItem)
+            {
+                GameObject item = Managers.Resource.Instantiate("Inventory/Item", slot.transform);
+                item.GetComponent<ItemInfo>().CopyItemInfo(itemInfo);
+                item.GetComponent<Image>().sprite = item.GetComponent<ItemInfo>().Icon;
+                slot.IsHasItem = true;
+                break;
+            }
+        }
+    }
 
-        _gr.Raycast(_ped, _raycastResultList);
+    private void SetItemSlotIndex()
+    {
+        UI_ItemSlot[] slots = _slotsParent.GetComponentsInChildren<UI_ItemSlot>();
+        _slotList = new List<UI_ItemSlot>(slots.Length);
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].Index = i;
+            _slotList.Add(slots[i]);
+        }
+    }
 
-        if (_raycastResultList.Count == 0)
-            return null;
-
-        return _raycastResultList[0].gameObject.GetComponent<T>();
+    private void CheckInventoryHasItem()
+    {
+        foreach (UI_ItemSlot slot in _slotList)
+        {
+            ItemInfo item = Util.FindChild<ItemInfo>(slot.gameObject);
+            if (item != null)
+            {
+                slot.IsHasItem = true;
+            }
+        }
     }
 
     private void OpenInventory()

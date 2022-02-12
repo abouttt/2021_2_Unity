@@ -20,7 +20,13 @@ public class Define
         Interaction,
     }
 
-    public enum ObjectTier
+    public enum ItemType
+    {
+        Immediate,
+        Obtain,
+    }
+
+    public enum ItemTier
     {
         Normal,
         Rare,

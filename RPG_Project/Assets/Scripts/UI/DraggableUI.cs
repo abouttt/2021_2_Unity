@@ -3,43 +3,45 @@ using UnityEngine.EventSystems;
 
 public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private Transform canvas;
-    private Transform previousParent;
-    private RectTransform rect;
-    private CanvasGroup canvasGroup;
+    private Transform _canvas = null;
+    private Transform _prevParent = null;
+    private RectTransform _rect = null;
+    private CanvasGroup _canvasGroup = null;
+
+    public Transform PrevParent => _prevParent;
 
     private void Awake()
     {
-        canvas = FindObjectOfType<Canvas>().transform;
-        rect = GetComponent<RectTransform>();
-        canvasGroup = GetComponent<CanvasGroup>();
+        _canvas = FindObjectOfType<InventorySystem>().transform;
+        _rect = GetComponent<RectTransform>();
+        _canvasGroup = GetComponent<CanvasGroup>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        previousParent = transform.parent;
+        _prevParent = transform.parent;
 
-        transform.SetParent(canvas);
+        transform.SetParent(_canvas);
         transform.SetAsLastSibling();
 
-        canvasGroup.alpha = 0.6f;
-        canvasGroup.blocksRaycasts = false;
+        _canvasGroup.alpha = 0.6f;
+        _canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        rect.position = eventData.position;
+        _rect.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(transform.parent==canvas)
+        if (transform.parent == _canvas)
         {
-            transform.SetParent(previousParent);
-            rect.position = previousParent.GetComponent<RectTransform>().position;
+            transform.SetParent(_prevParent);
+            _rect.position = _prevParent.GetComponent<RectTransform>().position;
         }
 
-        canvasGroup.alpha = 1.0f;
-        canvasGroup.blocksRaycasts = true;
+        _canvasGroup.alpha = 1.0f;
+        _canvasGroup.blocksRaycasts = true;
     }
 }

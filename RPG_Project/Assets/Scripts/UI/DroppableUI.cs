@@ -4,31 +4,48 @@ using UnityEngine.UI;
 
 public class DroppableUI : MonoBehaviour, IPointerEnterHandler, IDropHandler, IPointerExitHandler
 {
-    private Image image;
-    private RectTransform rect;
+    private Image _image;
+    private RectTransform _rect;
 
     private void Awake()
     {
-        image = GetComponent<Image>();
-        rect = GetComponent<RectTransform>();
+        _image = GetComponent<Image>();
+        _rect = GetComponent<RectTransform>();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        image.color = Color.yellow;
+        _image.color = Color.grey;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        image.color = Color.white;
+        _image.color = Color.white;
     }
 
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData.pointerDrag != null)
         {
-            eventData.pointerDrag.transform.SetParent(transform);
-            eventData.pointerDrag.GetComponent<RectTransform>().position = rect.position;
+            ItemInfo itemInfo = Util.FindChild<ItemInfo>(gameObject);
+            if (itemInfo != null)
+            {
+                itemInfo.gameObject.transform.SetParent(eventData.pointerDrag.GetComponent<DraggableUI>().PrevParent);
+                itemInfo.GetComponent<RectTransform>().position = eventData.pointerDrag.GetComponent<DraggableUI>().PrevParent.GetComponent<RectTransform>().position;
+
+                eventData.pointerDrag.transform.SetParent(transform);
+                eventData.pointerDrag.GetComponent<RectTransform>().position = _rect.position;
+            }
+            else
+            {
+                eventData.pointerDrag.transform.SetParent(transform);
+                eventData.pointerDrag.GetComponent<RectTransform>().position = _rect.position;
+            }
         }
+    }
+
+    private void SwapItem()
+    {
+
     }
 }
