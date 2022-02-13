@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class UI_Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private Transform _canvas = null;
     private Transform _prevParent = null;
@@ -19,6 +19,7 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        InventorySystem.Instance.IsDragging = true;
         _prevParent = transform.parent;
 
         transform.SetParent(_canvas);
@@ -35,6 +36,8 @@ public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        InventorySystem.Instance.IsDragging = false;
+
         if (transform.parent == _canvas)
         {
             transform.SetParent(_prevParent);

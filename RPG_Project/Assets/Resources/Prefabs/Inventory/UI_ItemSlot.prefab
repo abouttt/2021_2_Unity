@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 2664913746220449027}
   - component: {fileID: 9044126563886312751}
   - component: {fileID: -1131856483048086030}
-  - component: {fileID: 2958861001156296923}
   m_Layer: 5
-  m_Name: ItemSlot
+  m_Name: UI_ItemSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,15 +89,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemInfo: {fileID: 0}
---- !u!114 &2958861001156296923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8043618415923707070}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a18a180697be2f428f2831a9edb9d07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

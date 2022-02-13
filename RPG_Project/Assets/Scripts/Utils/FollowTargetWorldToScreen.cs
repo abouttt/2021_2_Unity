@@ -14,7 +14,7 @@ public class FollowTargetWorldToScreen : MonoBehaviour
         if (_target == null)
             return;
 
-        transform.position = Camera.main.WorldToScreenPoint(_target.transform.position) + _delta;
+        transform.position = Camera.main.WorldToScreenPoint(_target.transform.position + _delta);
     }
 
     public void SetTarget(GameObject target)

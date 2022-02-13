@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -37,6 +35,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnMouseEvent(Define.MouseEvent evt)
     {
+        if (evt == Define.MouseEvent.PointerUp ||
+            InventorySystem.Instance.IsDragging)
+            return;
+
         SetDestination();
 
         if (evt == Define.MouseEvent.PointerDown)

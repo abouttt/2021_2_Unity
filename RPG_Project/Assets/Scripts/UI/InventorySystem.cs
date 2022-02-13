@@ -1,13 +1,21 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InventorySystem : MonoBehaviour
 {
+    #region ÄÚ·çÆ¾
+    static InventorySystem s_instance;
+    public static InventorySystem Instance { get { return s_instance; } }
+
+    private void Awake()
+    {
+        if (s_instance == null)
+            s_instance = this;
+    }
+    #endregion
+
     [SerializeField]
     private KeyCode _activeKey = KeyCode.I;
     [SerializeField]
@@ -16,6 +24,8 @@ public class InventorySystem : MonoBehaviour
     private GameObject _testItem = null;
 
     private List<UI_ItemSlot> _slotList = null;
+
+    public bool IsDragging { get; set; } = false;
 
     private void Start()
     {
@@ -34,11 +44,11 @@ public class InventorySystem : MonoBehaviour
 
     public void AddItem(ItemInfo itemInfo)
     {
-        foreach(UI_ItemSlot slot in _slotList)
+        foreach (UI_ItemSlot slot in _slotList)
         {
             if (!slot.IsHasItem)
             {
-                GameObject item = Managers.Resource.Instantiate("Inventory/Item", slot.transform);
+                GameObject item = Managers.Resource.Instantiate("Inventory/UI_Item", slot.transform);
                 item.GetComponent<ItemInfo>().CopyItemInfo(itemInfo);
                 item.GetComponent<Image>().sprite = item.GetComponent<ItemInfo>().Icon;
                 slot.IsHasItem = true;

@@ -14,10 +14,11 @@ public class Define
 
     public enum Layer
     {
-        Ground = 6,
+        UI = 5,
+        Ground,
         Obstacle,
         Monster,
-        Interaction,
+        Item,
     }
 
     public enum ItemType

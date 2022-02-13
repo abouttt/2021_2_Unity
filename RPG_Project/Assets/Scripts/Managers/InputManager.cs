@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
 
 public class InputManager
@@ -8,7 +9,7 @@ public class InputManager
     public Action KeyAction = null;
     public Action<Define.MouseEvent> MouseAction = null;
 
-    private int _mask = (1 << (int)Define.Layer.Monster) | (1 << (int)Define.Layer.Interaction);
+    private int _mask = (1 << (int)Define.Layer.Monster) | (1 << (int)Define.Layer.Item);
 
     private GameObject _mousePointTarget = null;
     private GameObject _objectNameCanvas = null;
@@ -109,13 +110,16 @@ public class InputManager
 
             _mousePointTarget = hit.collider.gameObject;
 
-            if (_mousePointTarget.gameObject.layer == (int)Define.Layer.Interaction)
+            switch (_mousePointTarget.layer)
             {
-                SetObjectNameUIText();
-            }
-            if (_mousePointTarget.gameObject.layer == (int)Define.Layer.Monster)
-            {
-                _mousePointTarget.GetComponent<Outline>().enabled = true;
+                case (int)Define.Layer.Item:
+                    SetObjectNameUIText();
+                    _mousePointTarget.GetComponent<Outline>().enabled = true;
+                    break;
+
+                case (int)Define.Layer.Monster:
+                    _mousePointTarget.GetComponent<Outline>().enabled = true;
+                    break;
             }
         }
         else
@@ -129,13 +133,16 @@ public class InputManager
         if (_mousePointTarget == null)
             return;
 
-        if (_mousePointTarget.layer == (int)Define.Layer.Interaction)
+        switch (_mousePointTarget.layer)
         {
-            _objectNameText.SetActive(false);
-        }
-        if (_mousePointTarget.layer == (int)Define.Layer.Monster)
-        {
-            _mousePointTarget.GetComponent<Outline>().enabled = false;
+            case (int)Define.Layer.Item:
+                _objectNameText.SetActive(false);
+                _mousePointTarget.GetComponent<Outline>().enabled = false;
+                break;
+
+            case (int)Define.Layer.Monster:
+                _mousePointTarget.GetComponent<Outline>().enabled = false;
+                break;
         }
 
         _mousePointTarget = null;
@@ -169,11 +176,7 @@ public class InputManager
 
     public void Init()
     {
-        GameObject root = new GameObject("MouseManager_Root");
-        UnityEngine.Object.DontDestroyOnLoad(root);
-
         _objectNameCanvas = Managers.Resource.Instantiate("UI/ObjectNameCanvas");
-        _objectNameCanvas.transform.SetParent(root.transform);
         _objectNameText = _objectNameCanvas.transform.GetChild(0).gameObject;
         _objectNameText.SetActive(false);
 
