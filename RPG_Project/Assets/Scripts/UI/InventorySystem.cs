@@ -34,12 +34,7 @@ public class InventorySystem : MonoBehaviour
         SetItemSlotIndex();
         CheckInventoryHasItem();
         AddItem(_testItem.GetComponent<ItemInfo>());
-    }
-
-    private void Update()
-    {
-        Debug.Log(_slotList.Capacity);
-        Debug.Log(_slotList.Count);
+        gameObject.SetActive(false);
     }
 
     public void AddItem(ItemInfo itemInfo)
@@ -49,12 +44,19 @@ public class InventorySystem : MonoBehaviour
             if (!slot.IsHasItem)
             {
                 GameObject item = Managers.Resource.Instantiate("Inventory/UI_Item", slot.transform);
+                item.GetComponent<RectTransform>().localPosition = Vector3.zero;
                 item.GetComponent<ItemInfo>().CopyItemInfo(itemInfo);
                 item.GetComponent<Image>().sprite = item.GetComponent<ItemInfo>().Icon;
+                item.GetComponent<UI_Item>().UpdateItemAction.Invoke();
                 slot.IsHasItem = true;
                 break;
             }
         }
+    }
+
+    public void OnButtonCloseInventory()
+    {
+        gameObject.SetActive(false);
     }
 
     private void SetItemSlotIndex()
@@ -89,10 +91,5 @@ public class InventorySystem : MonoBehaviour
             else
                 gameObject.SetActive(false);
         }
-    }
-
-    public void OnButtonCloseInventory()
-    {
-        gameObject.SetActive(false);
     }
 }

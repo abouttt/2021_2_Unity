@@ -9,11 +9,7 @@ public class InputManager
     public Action KeyAction = null;
     public Action<Define.MouseEvent> MouseAction = null;
 
-    private int _mask = (1 << (int)Define.Layer.Monster) | (1 << (int)Define.Layer.Item);
-
     private GameObject _mousePointTarget = null;
-    private GameObject _objectNameCanvas = null;
-    private GameObject _objectNameText = null;
 
     private Texture2D _attackIcon = null;
     private Texture2D _handIcon = null;
@@ -27,6 +23,12 @@ public class InputManager
         None,
         Attack,
         Hand,
+    }
+
+    public void Init()
+    {
+        _attackIcon = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Attack");
+        _handIcon = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Basic");
     }
 
     public void OnUpdate()
@@ -101,7 +103,7 @@ public class InputManager
     {
         Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100.0f, _mask))
+        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Monster, Define.Layer.Item)))
         {
             if (_mousePointTarget == hit.collider.gameObject)
                 return;
@@ -113,8 +115,8 @@ public class InputManager
             switch (_mousePointTarget.layer)
             {
                 case (int)Define.Layer.Item:
-                    SetObjectNameUIText();
-                    _mousePointTarget.GetComponent<Outline>().enabled = true;
+                    if (_mousePointTarget.GetComponent<ItemInfo>().Type == Define.ItemType.Obtain)
+                        _mousePointTarget.GetComponent<Outline>().enabled = true;
                     break;
 
                 case (int)Define.Layer.Monster:
@@ -136,8 +138,8 @@ public class InputManager
         switch (_mousePointTarget.layer)
         {
             case (int)Define.Layer.Item:
-                _objectNameText.SetActive(false);
-                _mousePointTarget.GetComponent<Outline>().enabled = false;
+                if (_mousePointTarget.GetComponent<ItemInfo>().Type == Define.ItemType.Obtain)
+                    _mousePointTarget.GetComponent<Outline>().enabled = false;
                 break;
 
             case (int)Define.Layer.Monster:
@@ -146,41 +148,5 @@ public class InputManager
         }
 
         _mousePointTarget = null;
-    }
-
-    private void SetObjectNameUIText()
-    {
-        _objectNameText.SetActive(true);
-        _objectNameText.GetComponent<FollowTargetWorldToScreen>().SetTarget(_mousePointTarget);
-        _objectNameText.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _mousePointTarget.GetComponent<ItemInfo>().Name;
-        SetObjectNameTextColor();
-    }
-
-    private void SetObjectNameTextColor()
-    {
-        Define.ItemTier tier = _mousePointTarget.GetComponent<ItemInfo>().Tier;
-        TextMeshProUGUI textMesh = _objectNameText.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        switch (tier)
-        {
-            case Define.ItemTier.Normal:
-                textMesh.color = Color.white;
-                break;
-            case Define.ItemTier.Rare:
-                textMesh.color = Color.blue;
-                break;
-            case Define.ItemTier.Legend:
-                textMesh.color = Color.yellow;
-                break;
-        }
-    }
-
-    public void Init()
-    {
-        _objectNameCanvas = Managers.Resource.Instantiate("UI/ObjectNameCanvas");
-        _objectNameText = _objectNameCanvas.transform.GetChild(0).gameObject;
-        _objectNameText.SetActive(false);
-
-        _attackIcon = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Attack");
-        _handIcon = Managers.Resource.Load<Texture2D>("Textures/Cursors/Cursor_Basic");
     }
 }

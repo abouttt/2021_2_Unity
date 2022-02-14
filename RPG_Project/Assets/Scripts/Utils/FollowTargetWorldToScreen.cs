@@ -14,11 +14,14 @@ public class FollowTargetWorldToScreen : MonoBehaviour
         if (_target == null)
             return;
 
-        transform.position = Camera.main.WorldToScreenPoint(_target.transform.position + _delta);
+        Vector3 pos = Camera.main.WorldToScreenPoint(_target.transform.position + _delta);
+        pos.z = 0;
+        transform.position = pos;
     }
 
-    public void SetTarget(GameObject target)
+    public void SetTarget(GameObject target, Vector3 delta)
     {
         _target = target;
+        _delta = delta;
     }
 }

@@ -23,7 +23,7 @@ public class ItemInfo : MonoBehaviour
     public Define.ItemTier Tier { get { return _tier; } }
     public Define.ItemType Type { get { return _type; } }
     public bool IsCountable { get { return _isCountable; } }
-    public int Amount { get { return _amount; } }
+    public int Amount { get { return _amount; } set { _amount = value; } }
 
     public void CopyItemInfo(ItemInfo itemInfo)
     {

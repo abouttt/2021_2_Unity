@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Managers : MonoBehaviour
@@ -8,9 +6,11 @@ public class Managers : MonoBehaviour
     private static Managers Instance { get { Init(); return s_instance; } }
 
     InputManager _input = new InputManager();
+    PoolManager _pool = new PoolManager();
     ResourceManager _resource = new ResourceManager();
 
     public static InputManager Input { get { return Instance._input; } }
+    public static PoolManager Pool { get { return Instance._pool; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
 
     private void Start()
@@ -38,6 +38,7 @@ public class Managers : MonoBehaviour
             s_instance = go.GetComponent<Managers>();
 
             s_instance._input.Init();
+            s_instance._pool.Init();
         }
     }
 }

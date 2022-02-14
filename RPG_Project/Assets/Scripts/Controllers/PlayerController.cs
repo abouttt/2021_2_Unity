@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator = null;
     private CharacterController _characterController = null;
 
+    private GameObject _target = null;
     private GameObject _clickMoveArrow = null;
 
     private Vector3 _destPos;
@@ -39,6 +39,9 @@ public class PlayerController : MonoBehaviour
             InventorySystem.Instance.IsDragging)
             return;
 
+        if (evt == Define.MouseEvent.PointerDown)
+            SetTarget();
+
         SetDestination();
 
         if (evt == Define.MouseEvent.PointerDown)
@@ -51,11 +54,26 @@ public class PlayerController : MonoBehaviour
             _isCanMove = false;
     }
 
-    private void SetDestination()
+    private void SetTarget()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Ground)))
+        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Monster, Define.Layer.Item)))
+        {
+            _target = hit.collider.gameObject;
+            _destPos = _target.gameObject.transform.position;
+            _isCanMove = true;
+        }
+    }
+
+    private void SetDestination()
+    {
+        if (_target != null)
+            return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Ground, Define.Layer.Item)))
         {
             _destPos = hit.point;
             _isCanMove = true;
@@ -69,6 +87,17 @@ public class PlayerController : MonoBehaviour
 
         if (dir.magnitude < 0.1f || !_isCanMove)
         {
+            if (_target != null)
+            {
+                if (_target.layer == (int)Define.Layer.Item)
+                {
+                    InventorySystem.Instance.AddItem(_target.GetComponent<ItemInfo>());
+                    _target.GetComponent<FieldItem>().Destroy();
+                }
+
+                _target = null;
+            }
+
             _animator.SetBool("isMove", false);
             return;
         }
@@ -80,6 +109,9 @@ public class PlayerController : MonoBehaviour
 
     private void SetClickMoveArrowPos(Vector3 pos)
     {
+        if (_target != null)
+            return;
+
         pos.y = 0.1f;
         _clickMoveArrow.transform.position = pos;
         _clickMoveArrow.GetComponent<ParticleSystem>().Play();

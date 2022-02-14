@@ -32,23 +32,36 @@ public class UI_ItemSlot : MonoBehaviour, IPointerEnterHandler, IDropHandler, IP
     {
         if (eventData.pointerDrag != null)
         {
-            ItemInfo itemInfo = Util.FindChild<ItemInfo>(gameObject);
-            GameObject slectItem = eventData.pointerDrag;
+            GameObject draggingItem = eventData.pointerDrag;
 
-            if (itemInfo != null)
-            {
-                itemInfo.gameObject.transform.SetParent(slectItem.GetComponent<UI_Item>().PrevParent);
-                itemInfo.GetComponent<RectTransform>().position = slectItem.GetComponent<UI_Item>().PrevParent.GetComponent<RectTransform>().position;
-            }
-            else
-            {
-                slectItem.GetComponent<UI_Item>().PrevParent.GetComponent<UI_ItemSlot>().IsHasItem = false;
-            }
+            if (IsHasItem)
+                SwapItem(gameObject.transform.GetChild(0).gameObject, draggingItem);
 
-            slectItem.transform.SetParent(transform);
-            slectItem.GetComponent<RectTransform>().position = _rect.position;
-
+            draggingItem.transform.SetParent(transform);
+            draggingItem.GetComponent<RectTransform>().position = _rect.position;
             IsHasItem = true;
+        }
+    }
+
+    private void SwapItem(GameObject rhs, GameObject lhs)
+    {
+        ItemInfo rhsItemInfo = rhs.GetComponent<ItemInfo>();
+        ItemInfo lhsItemInfo = lhs.GetComponent<ItemInfo>();
+
+        if (rhsItemInfo.IsCountable && lhsItemInfo.IsCountable && 
+            rhsItemInfo.Name == lhsItemInfo.Name)
+        {
+            rhsItemInfo.Amount += lhsItemInfo.Amount;
+            rhs.GetComponent<UI_Item>().UpdateItemAction.Invoke();
+            Managers.Resource.Destroy(lhs);
+            InventorySystem.Instance.IsDragging = false;
+        }
+        else
+        {
+            UI_Item lhsUIItem = lhs.GetComponent<UI_Item>();
+            rhs.transform.SetParent(lhsUIItem.PrevParent);
+            rhs.GetComponent<RectTransform>().position = lhsUIItem.PrevParent.GetComponent<RectTransform>().position;
+            lhsUIItem.PrevParent.GetComponent<UI_ItemSlot>().IsHasItem = true;
         }
     }
 }

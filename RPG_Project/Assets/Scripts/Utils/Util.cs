@@ -53,9 +53,13 @@ public class Util
         return null;
     }
 
-    public static LayerMask GetLayerMask(Define.Layer layer)
+    public static LayerMask GetLayerMask(params Define.Layer[] layers)
     {
-        string name = Enum.GetName(typeof(Define.Layer), layer);
-        return LayerMask.GetMask(name);
+        int mask = 0;
+        foreach (int layer in layers)
+        {
+            mask |= (1 << layer);
+        }
+        return mask;
     }
 }
