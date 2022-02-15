@@ -10,6 +10,8 @@ public class ItemInfo : MonoBehaviour
     [SerializeField]
     private Sprite _iconSprite = null;
     [SerializeField]
+    private Define.ItemKinds _kinds;
+    [SerializeField]
     private Define.ItemType _type;
     [SerializeField]
     private Define.ItemTier _tier;
@@ -20,6 +22,7 @@ public class ItemInfo : MonoBehaviour
 
     public string Name { get { return _name; } }
     public Sprite Icon { get { return _iconSprite; } }
+    public Define.ItemKinds Kinds { get { return _kinds; } }
     public Define.ItemTier Tier { get { return _tier; } }
     public Define.ItemType Type { get { return _type; } }
     public bool IsCountable { get { return _isCountable; } }
@@ -29,6 +32,7 @@ public class ItemInfo : MonoBehaviour
     {
         _name = itemInfo.Name;
         _iconSprite = itemInfo.Icon;
+        _kinds = itemInfo.Kinds;
         _type = itemInfo.Type;
         _tier = itemInfo.Tier;
         _isCountable = itemInfo.IsCountable;

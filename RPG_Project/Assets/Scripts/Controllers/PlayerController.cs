@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private void OnMouseEvent(Define.MouseEvent evt)
     {
         if (evt == Define.MouseEvent.PointerUp ||
-            InventorySystem.Instance.IsDragging)
+            UI_PopupCanvas.Instance.IsDragging)
             return;
 
         if (evt == Define.MouseEvent.PointerDown)
@@ -58,11 +58,16 @@ public class PlayerController : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Monster, Define.Layer.Item)))
+        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Ground, Define.Layer.Monster, Define.Layer.Item)))
         {
-            _target = hit.collider.gameObject;
-            _destPos = _target.gameObject.transform.position;
-            _isCanMove = true;
+            if (hit.collider.gameObject.layer == (int)Define.Layer.Ground)
+                _target = null;
+            else
+            {
+                _target = hit.collider.gameObject;
+                _destPos = _target.gameObject.transform.position;
+                _isCanMove = true;
+            }
         }
     }
 
@@ -73,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Ground, Define.Layer.Item)))
+        if (Physics.Raycast(ray, out hit, 100.0f, Util.GetLayerMask(Define.Layer.Ground)))
         {
             _destPos = hit.point;
             _isCanMove = true;
@@ -89,9 +94,10 @@ public class PlayerController : MonoBehaviour
         {
             if (_target != null)
             {
-                if (_target.layer == (int)Define.Layer.Item)
+                if (_target.layer == (int)Define.Layer.Item && 
+                    _target.GetComponent<ItemInfo>().Type == Define.ItemType.Obtain)
                 {
-                    InventorySystem.Instance.AddItem(_target.GetComponent<ItemInfo>());
+                    ItemInventorySystem.Instance.AddItem(_target.GetComponent<ItemInfo>());
                     _target.GetComponent<FieldItem>().Destroy();
                 }
 

@@ -23,8 +23,19 @@ public class Define
 
     public enum ItemType
     {
-        Immediate,
-        Obtain,
+        Immediate,  // 즉발
+        Obtain,     // 얻기 가능
+    }
+
+    public enum ItemKinds
+    {
+        Helmet,
+        Armor,
+        Pants,
+        Gloves,
+        Shoes,
+        Weapon,
+        Portion,
     }
 
     public enum ItemTier

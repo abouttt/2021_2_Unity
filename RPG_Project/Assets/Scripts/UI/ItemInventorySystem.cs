@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySystem : MonoBehaviour
+public class ItemInventorySystem : MonoBehaviour
 {
     #region ÄÚ·çÆ¾
-    static InventorySystem s_instance;
-    public static InventorySystem Instance { get { return s_instance; } }
+    static ItemInventorySystem s_instance;
+    public static ItemInventorySystem Instance { get { return s_instance; } }
 
     private void Awake()
     {
@@ -20,20 +20,15 @@ public class InventorySystem : MonoBehaviour
     private KeyCode _activeKey = KeyCode.I;
     [SerializeField]
     private GameObject _slotsParent = null;
-    [SerializeField]
-    private GameObject _testItem = null;
 
     private List<UI_ItemSlot> _slotList = null;
-
-    public bool IsDragging { get; set; } = false;
 
     private void Start()
     {
         Managers.Input.KeyAction += OpenInventory;
 
-        SetItemSlotIndex();
+        SetItemSlot();
         CheckInventoryHasItem();
-        AddItem(_testItem.GetComponent<ItemInfo>());
         gameObject.SetActive(false);
     }
 
@@ -43,7 +38,7 @@ public class InventorySystem : MonoBehaviour
         {
             if (!slot.IsHasItem)
             {
-                GameObject item = Managers.Resource.Instantiate("Inventory/UI_Item", slot.transform);
+                GameObject item = Managers.Resource.Instantiate("UI/ItemInventory/UI_Item", slot.transform);
                 item.GetComponent<RectTransform>().localPosition = Vector3.zero;
                 item.GetComponent<ItemInfo>().CopyItemInfo(itemInfo);
                 item.GetComponent<Image>().sprite = item.GetComponent<ItemInfo>().Icon;
@@ -59,13 +54,12 @@ public class InventorySystem : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void SetItemSlotIndex()
+    private void SetItemSlot()
     {
         UI_ItemSlot[] slots = _slotsParent.GetComponentsInChildren<UI_ItemSlot>();
         _slotList = new List<UI_ItemSlot>(slots.Length);
         for (int i = 0; i < slots.Length; i++)
         {
-            slots[i].Index = i;
             _slotList.Add(slots[i]);
         }
     }
