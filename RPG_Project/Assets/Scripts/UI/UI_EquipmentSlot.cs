@@ -40,6 +40,7 @@ public class UI_EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IDropHandle
                 draggingItem.transform.SetParent(draggingItem.GetComponent<UI_Item>().PrevParent);
                 draggingItem.GetComponent<RectTransform>().position = 
                     draggingItem.GetComponent<UI_Item>().PrevParent.GetComponent<RectTransform>().position;
+                draggingItem.GetComponent<UI_Item>().PrevParent.GetComponent<UI_ItemSlot>().IsHasItem = true;
                 return;
             }
 
